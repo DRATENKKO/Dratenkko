@@ -11,7 +11,7 @@
 
 - ⚡ Dato curioso **Me gustan todo tipo de animales**
 
-<h3 align="left">Connect with me:</h3>
+<h3 align="left">Redes:</h3>
 <p align="left">
 <a href="https://twitter.com/dratenkoo" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="dratenkoo" height="30" width="40" /></a>
 <a href="https://cl.linkedin.com/in/sebastian-vargas-bermejo-613658222?trk=people-guest_people_search-card" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="sebastian vargas bermejo" height="30" width="40" /></a>
