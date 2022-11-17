@@ -14,7 +14,7 @@
 <h3 align="left">Connect with me:</h3>
 <p align="left">
 <a href="https://twitter.com/dratenkoo" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="dratenkoo" height="30" width="40" /></a>
-<a href="https://linkedin.com/in/sebastian vargas bermejo" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="sebastian vargas bermejo" height="30" width="40" /></a>
+<a href="https://cl.linkedin.com/in/sebastian-vargas-bermejo-613658222?trk=people-guest_people_search-card" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="sebastian vargas bermejo" height="30" width="40" /></a>
 <a href="https://instagram.com/dratenkko" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="dratenkko" height="30" width="40" /></a>
 <a href="https://discord.gg/Dratenko#2234" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/discord.svg" alt="Dratenko#2234" height="30" width="40" /></a>
 </p>
