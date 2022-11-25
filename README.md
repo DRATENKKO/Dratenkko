@@ -1,4 +1,4 @@
-<h1 align="center">Hola 👋,soy Sebastián</h1>
+<h1 align="center">Hola 👋, soy Sebastián</h1>
 <h3 align="center">Actualmente un estudiante de Analista programador computacional en DUOC UC.</h3>
 
 - 🌱 I’m currently learning **Ionic, Angular, Django,Python**
