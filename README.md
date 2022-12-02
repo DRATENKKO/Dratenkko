@@ -9,7 +9,6 @@
 
 - 📫 ¿Como contactarme? **Sebastian.vargas.bermejo@gmail.com**
 
-- ⚡ Dato curioso **Me gustan todo tipo de animales**
 
 <h3 align="left">Redes:</h3>
 <p align="left">
