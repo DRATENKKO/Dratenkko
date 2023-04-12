@@ -1,11 +1,9 @@
 <h1 align="center">Hola 👋, soy Sebastián</h1>
 <h3 align="center">Actualmente un estudiante de Analista programador computacional en DUOC UC.</h3>
 
-- 🌱 Actualmente estoy aprendiendo **Ionic, Angular, Django,Python**
+- 🌱 Actualmente estoy aprendiendo **C#**
 
-- 👯 Actualmente Aprendiendo **C#**
-
-- 👾 Me gustaria aprender **PHP, C++,C,C#,Laravel**
+- 👾 Me gustaria aprender **PHP, C++,C,Laravel**
 
 - 📫 ¿Como contactarme? **Sebastian.vargas.bermejo@gmail.com**
 
