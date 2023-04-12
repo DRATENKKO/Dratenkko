@@ -3,7 +3,7 @@
 
 - 🌱 Actualmente estoy aprendiendo **Ionic, Angular, Django,Python**
 
-- 👯 Actualmente en busqueda de **Trabajo**
+- 👯 Actualmente Aprendiendo **C#**
 
 - 👾 Me gustaria aprender **PHP, C++,C,C#,Laravel**
 
