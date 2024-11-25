@@ -11,7 +11,6 @@
 <h3 align="left">Redes:</h3>
 <p align="left">
 <a href="https://cl.linkedin.com/in/sebastian-vargas-bermejo-613658222?trk=people-guest_people_search-card" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="sebastian vargas bermejo" height="30" width="40" /></a>
-<a href="https://discord.gg/Dratenko#2234" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/discord.svg" alt="Dratenko#2234" height="30" width="40" /></a>
 </p>
 
 <h3 align="left">Me manejo con:</h3>
