@@ -1,7 +1,7 @@
 <h1 align="center">Hola 👋, soy Sebastián</h1>
 <h3 align="center">Analista programador Computacional.</h3>
 
-- 🌱 Actualmente estoy aprendiendo **C#**
+- 🌱 Actualmente estoy aprendiendo **Flutter**
 
 - 👾 Me gustaria aprender **PHP, C++,C,Laravel**
 
