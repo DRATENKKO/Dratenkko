@@ -6,5 +6,9 @@ export default defineConfig({
   // Para GitHub Pages: usa el nombre del repositorio
   // Para Cloudflare Pages: cambia a base: "/"
   base: "/Dratenkko/",
+  build: {
+    outDir: "docs",
+    emptyOutDir: true,
+  },
   plugins: [react()],
 })
