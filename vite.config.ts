@@ -3,6 +3,8 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/",
+  // Para GitHub Pages: usa el nombre del repositorio
+  // Para Cloudflare Pages: cambia a base: "/"
+  base: "/Dratenkko/",
   plugins: [react()],
 })
