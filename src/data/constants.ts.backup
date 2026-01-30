@@ -1,0 +1,445 @@
+// Language Options with SVG Flag Data
+export const languageOptions = [
+  {
+    code: 'es',
+    name: 'Español (Chile)',
+    flag: '🇨🇱',
+  },
+  {
+    code: 'en',
+    name: 'English',
+    flag: '🇬🇧',
+  },
+  {
+    code: 'pt',
+    name: 'Português',
+    flag: '🇵🇹',
+  },
+  {
+    code: 'it',
+    name: 'Italiano',
+    flag: '🇮🇹',
+  }
+];
+
+// Interfaces
+export interface Description {
+  es: string;
+  en: string;
+  pt: string;
+  it: string;
+}
+
+export interface Skill {
+  name: string;
+  icon: string;
+  category: 'languages' | 'frameworks' | 'tools';
+  level: number;
+}
+
+export interface ProjectImage {
+  url: string;
+  caption: Description;
+}
+
+export interface Project {
+  id: string;
+  title: string;
+  shortDescription: Description;
+  fullDescription: Description;
+  type: string;
+  thumbnail: string;
+  technologies: string[];
+  videoUrl?: string;
+  images: ProjectImage[];
+  company: string;
+  role: string;
+  period: string;
+  achievements: Description;
+}
+
+export interface Experience {
+  role: string;
+  company: string;
+  period: string;
+  description: Description;
+}
+
+export interface Certificate {
+  id: string;
+  title: Description;
+  issuer: Description;
+  date: string;
+  credentialUrl?: string;
+  fileUrl: string; // Path to PDF or image in public folder
+  fileType: 'pdf' | 'jpg' | 'png';
+}
+
+// Skills Data
+export const skills: Skill[] = [
+  // Languages
+  { name: 'Python', icon: '🐍', category: 'languages', level: 95 },
+  { name: 'C#/.NET', icon: '💎', category: 'languages', level: 90 },
+  { name: 'Java', icon: '☕', category: 'languages', level: 75 },
+  { name: 'SQL', icon: '🗃️', category: 'languages', level: 88 },
+  { name: 'TypeScript', icon: '📘', category: 'languages', level: 82 },
+  { name: 'Dart', icon: '🎯', category: 'languages', level: 85 },
+
+  // Frameworks
+  { name: 'Django', icon: '🎸', category: 'frameworks', level: 88 },
+  { name: 'Flutter', icon: '🦋', category: 'frameworks', level: 90 },
+  { name: 'Angular', icon: '⚡', category: 'frameworks', level: 78 },
+  { name: 'Ionic', icon: '⚛️', category: 'frameworks', level: 80 },
+  { name: '.NET Core', icon: '🔷', category: 'frameworks', level: 92 },
+  { name: 'React', icon: '⚛️', category: 'frameworks', level: 85 },
+
+  // Tools
+  { name: 'Docker', icon: '🐳', category: 'tools', level: 85 },
+  { name: 'Selenium', icon: '🤖', category: 'tools', level: 88 },
+  { name: 'Git', icon: '📦', category: 'tools', level: 90 },
+  { name: 'PostgreSQL', icon: '🐘', category: 'tools', level: 82 },
+  { name: 'MongoDB', icon: '🍃', category: 'tools', level: 80 },
+];
+
+// Language Skills with Certifications
+export const languageSkills = [
+  {
+    language: 'Español',
+    level: 'Nativo',
+    flag: '🇨🇱',
+    description: { es: 'Idioma materno', en: 'Native language', pt: 'Língua materna', it: 'Lingua madre' }
+  },
+  {
+    language: 'English',
+    level: 'B2 - Intermedio',
+    flag: '🇬🇧',
+    certifications: ['TOEIC Bridge', 'EF SET B2'],
+    description: { es: 'Intermedio alto - Certificado', en: 'Upper intermediate - Certified', pt: 'Intermediário superior - Certificado', it: 'Intermedio alto - Certificato' }
+  },
+];
+
+// Certificates Data
+export const certificates: Certificate[] = [
+  {
+    id: 'toeic-bridge',
+    title: {
+      es: 'TOEIC Bridge™',
+      en: 'TOEIC Bridge™',
+      pt: 'TOEIC Bridge™',
+      it: 'TOEIC Bridge™'
+    },
+    issuer: {
+      es: 'ETS - Educational Testing Service',
+      en: 'ETS - Educational Testing Service',
+      pt: 'ETS - Educational Testing Service',
+      it: 'ETS - Educational Testing Service'
+    },
+    date: '2023',
+    credentialUrl: 'https://www.ets.org/toeic/bridge',
+    fileUrl: '/certificates/toeic-bridge.pdf',
+    fileType: 'pdf'
+  },
+  {
+    id: 'ef-set-b2',
+    title: {
+      es: 'EF SET English Certificate B2',
+      en: 'EF SET English Certificate B2',
+      pt: 'EF SET English Certificate B2',
+      it: 'EF SET English Certificate B2'
+    },
+    issuer: {
+      es: 'EF Education First',
+      en: 'EF Education First',
+      pt: 'EF Education First',
+      it: 'EF Education First'
+    },
+    date: '2023',
+    credentialUrl: 'https://www.efset.org/',
+    fileUrl: '/certificates/ef-set-b2.pdf',
+    fileType: 'pdf'
+  }
+];
+
+// Enhanced Projects Data
+export const projects: Project[] = [
+  {
+    id: 'i-go',
+    title: 'I-GO Enterprise Solution',
+    shortDescription: {
+      es: 'Aplicación empresarial con .NET 8 y Docker',
+      en: 'Enterprise application with .NET 8 and Docker',
+      pt: 'Aplicação empresarial com .NET 8 e Docker',
+      it: 'Applicazione enterprise con .NET 8 e Docker'
+    },
+    fullDescription: {
+      es: 'Desarrollo de sistema empresarial completo utilizando .NET 8, Docker y Entity Framework. Implementé operaciones CRUD optimizadas, arquitectura de microservicios, y contenedores Docker para despliegue escalable. El sistema maneja grandes volúmenes de datos con excelente rendimiento.',
+      en: 'Development of complete enterprise system using .NET 8, Docker, and Entity Framework. Implemented optimized CRUD operations, microservices architecture, and Docker containers for scalable deployment. The system handles large data volumes with excellent performance.',
+      pt: 'Desenvolvimento de sistema empresarial completo utilizando .NET 8, Docker e Entity Framework. Implementei operações CRUD otimizadas, arquitetura de microsserviços e contêineres Docker para implantação escalável. O sistema lida com grandes volumes de dados com excelente desempenho.',
+      it: 'Sviluppo di sistema enterprise completo utilizzando .NET 8, Docker ed Entity Framework. Ho implementato operazioni CRUD ottimizzate, architettura microservizi e container Docker per distribuzione scalabile. Il sistema gestisce grandi volumi di dati con eccellenti prestazioni.'
+    },
+    type: 'Enterprise Application',
+    thumbnail: 'igo.jpg',
+    technologies: ['.NET 8', 'C#', 'Entity Framework', 'Docker', 'SQL Server', 'Redis'],
+    company: 'I-GO',
+    role: 'C# Developer',
+    period: 'Febrero 2024 — Abril 2024',
+    achievements: {
+      es: '• Reducción del 40% en tiempo de respuesta\n• Implementación de caching con Redis\n• Arquitectura escalable con Docker',
+      en: '• 40% reduction in response time\n• Redis caching implementation\n• Scalable architecture with Docker',
+      pt: '• Redução de 40% no tempo de resposta\n• Implementação de cache com Redis\n• Arquitetura escalável com Docker',
+      it: '• Riduzione del 40% nei tempi di risposta\n• Implementazione cache con Redis\n• Architettura scalabile con Docker'
+    },
+    videoUrl: '/igo-demo.mp4',
+    images: [
+      { url: 'flutter.png', caption: { es: 'Dashboard Principal', en: 'Main Dashboard', pt: 'Dashboard Principal', it: 'Dashboard Principale' } },
+      { url: 'art.png', caption: { es: 'Gestión de Datos', en: 'Data Management', pt: 'Gestão de Dados', it: 'Gestione Dati' } },
+      { url: 'spare.png', caption: { es: 'Configuración Docker', en: 'Docker Configuration', pt: 'Configuração Docker', it: 'Configurazione Docker' } },
+      { url: 'scrappers.png', caption: { es: 'API Endpoints', en: 'API Endpoints', pt: 'Endpoints API', it: 'Endpoint API' } },
+    ]
+  },
+  {
+    id: 'neosoltec',
+    title: 'Neosoltec Web Scraper',
+    shortDescription: {
+      es: 'Web scraping avanzado con Python y Selenium',
+      en: 'Advanced web scraping with Python and Selenium',
+      pt: 'Web scraping avançado com Python e Selenium',
+      it: 'Web scraping avanzato con Python e Selenium'
+    },
+    fullDescription: {
+      es: 'Desarrollo de herramienta automatizada de extracción de datos masivos utilizando Python, Selenium y BeautifulSoup. Implementé técnicas de web scraping avanzadas, manejo de CAPTCHAs, y generación de reportes automáticos. Procesa más de 10,000 registros diarios con alta precisión.',
+      en: 'Development of automated massive data extraction tool using Python, Selenium, and BeautifulSoup. Implemented advanced web scraping techniques, CAPTCHA handling, and automatic report generation. Processes over 10,000 daily records with high accuracy.',
+      pt: 'Desenvolvimento de ferramenta automatizada de extração massiva de dados utilizando Python, Selenium e BeautifulSoup. Implementei técnicas avançadas de web scraping, manipulação de CAPTCHAs e geração automática de relatórios. Processa mais de 10.000 registros diários com alta precisão.',
+      it: 'Sviluppo di strumento automatizzato per l\'estrazione massiccia di dati utilizzando Python, Selenium e BeautifulSoup. Ho implementato tecniche avanzate di web scraping, gestione CAPTCHA e generazione automatica di report. Elabora oltre 10.000 record giornalieri con alta precisione.'
+    },
+    type: 'Data Automation',
+    thumbnail: 'neosoltec.jpg',
+    technologies: ['Python', 'Selenium', 'BeautifulSoup', 'Pandas', 'Flask', 'PostgreSQL'],
+    company: 'Neosoltec',
+    role: 'Developer & Web Scraper Specialist',
+    period: 'Agosto 2023 — Enero 2024',
+    achievements: {
+      es: '• Extracción de 10,000+ registros diarios\n• Tasa de éxito del 99.5%\n• Automatización completa con Selenium',
+      en: '• Extraction of 10,000+ daily records\n• 99.5% success rate\n• Full automation with Selenium',
+      pt: '• Extração de 10.000+ registros diários\n• Taxa de sucesso de 99.5%\n• Automação completa com Selenium',
+      it: '• Estrazione di 10.000+ record giornalieri\n• Tasso di successo del 99.5%\n• Automazione completa con Selenium'
+    },
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+    images: [
+      { url: 'neo-1.jpg', caption: { es: 'Panel de Control', en: 'Control Panel', pt: 'Painel de Controle', it: 'Pannello di Controllo' } },
+      { url: 'neo-2.jpg', caption: { es: 'Configuración Scraper', en: 'Scraper Configuration', pt: 'Configuração Scraper', it: 'Configurazione Scraper' } },
+      { url: 'neo-3.jpg', caption: { es: 'Resultados Extraídos', en: 'Extracted Results', pt: 'Resultados Extraídos', it: 'Risultati Estratti' } },
+      { url: 'neo-4.jpg', caption: { es: 'Dashboard Analítico', en: 'Analytics Dashboard', pt: 'Dashboard Analítico', it: 'Dashboard Analitico' } },
+    ]
+  },
+  {
+    id: 'permify',
+    title: 'Permify Art Therapy Platform',
+    shortDescription: {
+      es: 'Plataforma Django para estimulación cognitiva',
+      en: 'Django platform for cognitive stimulation',
+      pt: 'Plataforma Django para estimulação cognitiva',
+      it: 'Piattaforma Django per stimolazione cognitiva'
+    },
+    fullDescription: {
+      es: 'Plataforma web completa en Django para terapia de arte y estimulación de memoria en adultos mayores. Incluye módulos de expresión creativa, seguimiento personalizado del progreso, y herramientas de análisis para terapeutas. La plataforma mejora las funciones cognitivas mediante ejercicios artísticos interactivos.',
+      en: 'Complete web platform in Django for art therapy and memory stimulation in elderly adults. Includes creative expression modules, personalized progress tracking, and analysis tools for therapists. The platform improves cognitive functions through interactive artistic exercises.',
+      pt: 'Plataforma web completa em Django para terapia de arte e estimulação de memória em idosos. Inclui módulos de expressão criativa, acompanhamento personalizado do progresso e ferramentas de análise para terapeutas. A plataforma melhora as funções cognitivas através de exercícios artísticos interativos.',
+      it: 'Piattaforma web completa in Django per terapia dell\'arte e stimolazione della memoria negli anziani. Include moduli di espressione creativa, monitoraggio personalizzato dei progressi e strumenti di analisi per i terapisti. La piattaforma migliora le funzioni cognitive attraverso esercizi artistici interattivi.'
+    },
+    type: 'Healthcare Platform',
+    thumbnail: 'art.png',
+    technologies: ['Python', 'Django', 'React', 'PostgreSQL', 'Docker', 'AWS'],
+    company: 'Permify',
+    role: 'Full Stack Developer',
+    period: 'Noviembre 2022 — Enero 2023',
+    achievements: {
+      es: '•+500 usuarios activos mensuales\n• Mejora del 35% en funciones cognitivas\n• Sistema de tracking en tiempo real',
+      en: '•+500 monthly active users\n• 35% improvement in cognitive functions\n• Real-time tracking system',
+      pt: '•+500 usuários mensais ativos\n• Melhoria de 35% nas funções cognitivas\n• Sistema de rastreamento em tempo real',
+      it: '•+500 utenti mensili attivi\n• Miglioramento del 35% nelle funzioni cognitive\n• Sistema di tracking in tempo reale'
+    },
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    images: [
+      { url: 'permify-1.jpg', caption: { es: 'Dashboard Usuario', en: 'User Dashboard', pt: 'Painel do Usuário', it: 'Dashboard Utente' } },
+      { url: 'permify-2.jpg', caption: { es: 'Ejercicios de Arte', en: 'Art Exercises', pt: 'Exercícios de Arte', it: 'Esercizi d\'Arte' } },
+      { url: 'permify-3.jpg', caption: { es: 'Progreso Terapéutico', en: 'Therapeutic Progress', pt: 'Progresso Terapêutico', it: 'Progresso Terapeutico' } },
+      { url: 'permify-4.jpg', caption: { es: 'Panel Terapeuta', en: 'Therapist Panel', pt: 'Painel do Terapeuta', it: 'Pannello Terapista' } },
+    ]
+  },
+];
+
+export const experience: Experience[] = [
+  {
+    role: 'Full Stack Developer',
+    company: 'Permify',
+    period: 'Noviembre 2022 — Enero 2023',
+    description: {
+      es: 'Desarrollo de aplicaciones web completas con Django y React. Implementación de arquitecturas escalables y microservicios.',
+      en: 'Full-stack web application development with Django and React. Implementation of scalable architectures and microservices.',
+      pt: 'Desenvolvimento de aplicações web full-stack com Django e React. Implementação de arquiteturas escaláveis e microsserviços.',
+      it: 'Sviluppo di applicazioni web full-stack con Django e React. Implementazione di architetture scalabili e microservizi.',
+    },
+  },
+  {
+    role: 'Developer & Web Scraper Specialist',
+    company: 'Neosoltec',
+    period: 'Agosto 2023 — Enero 2024',
+    description: {
+      es: 'Desarrollo de herramientas automatizadas de extracción de datos con Python y Selenium. Análisis de datos y generación de reportes.',
+      en: 'Development of automated data extraction tools with Python and Selenium. Data analysis and report generation.',
+      pt: 'Desenvolvimento de ferramentas automatizadas de extração de dados com Python e Selenium. Análise de dados e geração de relatórios.',
+      it: 'Sviluppo di strumenti automatizzati di estrazione dati con Python e Selenium. Analisi dei dati e generazione di report.',
+    },
+  },
+  {
+    role: 'C# Developer',
+    company: 'I-GO',
+    period: 'Febrero 2024 — Abril 2024',
+    description: {
+      es: 'Desarrollo de aplicaciones empresariales con .NET 8 y Entity Framework. Optimización de consultas y refactorización de código legacy.',
+      en: 'Enterprise application development with .NET 8 and Entity Framework. Query optimization and legacy code refactoring.',
+      pt: 'Desenvolvimento de aplicações empresariais com .NET 8 e Entity Framework. Otimização de consultas e refatoração de código legado.',
+      it: 'Sviluppo di applicazioni enterprise con .NET 8 ed Entity Framework. Ottimizzazione delle query e refactoring del codice legacy.',
+    },
+  },
+];
+
+// Translations
+export const translations = {
+  nav: {
+    home: { es: 'Inicio', en: 'Home', pt: 'Início', it: 'Inizio' },
+    experience: { es: 'Experiencia', en: 'Experience', pt: 'Experiência', it: 'Esperienza' },
+    skills: { es: 'Habilidades', en: 'Skills', pt: 'Habilidades', it: 'Competenze' },
+    projects: { es: 'Proyectos', en: 'Projects', pt: 'Projetos', it: 'Progetti' },
+    certificates: { es: 'Certificados', en: 'Certificates', pt: 'Certificados', it: 'Certificati' },
+    contact: { es: 'Contacto', en: 'Contact', pt: 'Contato', it: 'Contatto' },
+  },
+  hero: {
+    title: 'Sebastian Vargas B',
+    subtitle: {
+      es: 'Analista Programador | Full Stack Developer',
+      en: 'Software Analyst | Full Stack Developer',
+      pt: 'Analista de Programas | Desenvolvedor Full Stack',
+      it: 'Analista di Software | Full Stack Developer'
+    },
+    description: {
+      es: 'Transformando ideas en proyectos digitales innovadores y funcionales con creatividad y eficiencia. Especializado en .NET, Python y Flutter.',
+      en: 'Transforming ideas into innovative and functional digital projects with creativity and efficiency. Specialized in .NET, Python, and Flutter.',
+      pt: 'Transformando ideias em projetos digitais inovadores e funcionais com criatividade e eficiência. Especializado em .NET, Python e Flutter.',
+      it: 'Trasformando idee in progetti digitali innovativi e funzionali con creatività ed efficienza. Specializzato in .NET, Python e Flutter.'
+    },
+    cta1: { es: 'Ver Proyectos', en: 'View Projects', pt: 'Ver Projetos', it: 'Vedi Progetti' },
+    cta2: { es: 'Contactar', en: 'Contact', pt: 'Contatar', it: 'Contatto' },
+    disabilityBadge: {
+      es: 'Inscrito en el Registro Nacional de Discapacidad (Ley 21.015)',
+      en: 'Registered in the National Disability Registry (Law 21.015)',
+      pt: 'Inscrito no Registro Nacional de Deficiência (Lei 21.015)',
+      it: 'Iscritto nel Registro Nazionale delle Disabilità (Legge 21.015)'
+    }
+  },
+  experience: {
+    title: { es: 'Mi Experiencia', en: 'My Experience', pt: 'Minha Experiência', it: 'La Mia Esperienza' },
+  },
+  skills: {
+    title: { es: 'Stack Tecnológico', en: 'Tech Stack', pt: 'Pilha Tecnológica', it: 'Stack Tecnologico' },
+    subtitle: {
+      es: 'Tecnologías y herramientas que domino profesionalmente',
+      en: 'Technologies and tools I master professionally',
+      pt: 'Tecnologias e ferramentas que domino profissionalmente',
+      it: 'Tecnologie e strumenti che masterizzo professionalmente'
+    },
+    languages: { es: 'Lenguajes', en: 'Languages', pt: 'Linguagens', it: 'Linguaggi' },
+    frameworks: { es: 'Frameworks', en: 'Frameworks', pt: 'Frameworks', it: 'Frameworks' },
+    tools: { es: 'Herramientas', en: 'Tools', pt: 'Ferramentas', it: 'Strumenti' },
+    languageSkills: { es: 'Idiomas', en: 'Languages', pt: 'Idiomas', it: 'Lingue' },
+    certifications: { es: 'Certificaciones', en: 'Certifications', pt: 'Certificações', it: 'Certificazioni' },
+  },
+  certificates: {
+    title: { es: 'Certificados Profesionales', en: 'Professional Certificates', pt: 'Certificados Profissionais', it: 'Certificati Professionali' },
+    subtitle: {
+      es: 'Certificaciones y logros académicos que respaldan mi experiencia',
+      en: 'Certifications and academic achievements that support my experience',
+      pt: 'Certificações e conquistas acadêmicas que apoiam minha experiência',
+      it: 'Certificazioni e traguardi accademici che supportano la mia esperienza'
+    },
+    download: { es: 'Descargar', en: 'Download', pt: 'Baixar', it: 'Scarica' },
+    viewCredential: { es: 'Ver Credencial', en: 'View Credential', pt: 'Ver Credencial', it: 'Vedi Credenziale' },
+    issuer: { es: 'Emisor', en: 'Issuer', pt: 'Emissor', it: 'Emittente' },
+    date: { es: 'Fecha', en: 'Date', pt: 'Data', it: 'Data' },
+  },
+  projects: {
+    title: { es: 'Proyectos Destacados', en: 'Featured Projects', pt: 'Projetos em Destaque', it: 'Progetti in Evidenza' },
+    subtitle: {
+      es: 'Haz clic en cualquier proyecto para ver más detalles',
+      en: 'Click on any project to see more details',
+      pt: 'Clique em qualquer projeto para ver mais detalhes',
+      it: 'Clicca su qualsiasi progetto per vedere più dettagli'
+    },
+    viewProject: { es: 'Ver Detalles', en: 'View Details', pt: 'Ver Detalhes', it: 'Vedi Dettagli' },
+    close: { es: 'Cerrar', en: 'Close', pt: 'Fechar', it: 'Chiudi' },
+    achievements: { es: 'Logros', en: 'Achievements', pt: 'Conquistas', it: 'Risultati' },
+    technologies: { es: 'Tecnologías', en: 'Technologies', pt: 'Tecnologias', it: 'Tecnologie' },
+    gallery: { es: 'Galería', en: 'Gallery', pt: 'Galeria', it: 'Galleria' },
+  },
+  contact: {
+    title: { es: 'Contacto', en: 'Contact', pt: 'Contato', it: 'Contatto' },
+    subtitle: {
+      es: '¿Tienes un proyecto en mente? ¡Conectemos!',
+      en: 'Have a project in mind? Let\'s connect!',
+      pt: 'Tem um projeto em mente? Vamos nos conectar!',
+      it: 'Hai un progetto in mente? Connettiamoci!'
+    },
+    name: { es: 'Nombre', en: 'Name', pt: 'Nome', it: 'Nome' },
+    email: { es: 'Email', en: 'Email', pt: 'Email', it: 'Email' },
+    phone: { es: 'Teléfono', en: 'Phone', pt: 'Telefone', it: 'Telefono' },
+    message: { es: 'Mensaje', en: 'Message', pt: 'Mensagem', it: 'Messaggio' },
+    send: { es: 'Enviar mensaje', en: 'Send Message', pt: 'Enviar mensagem', it: 'Invia messaggio' },
+    sending: { es: 'Enviando...', en: 'Sending...', pt: 'Enviando...', it: 'Invio...' },
+    wait: { es: 'Espera', en: 'Wait', pt: 'Espere', it: 'Attendi' },
+    seconds: { es: 'segundos', en: 'seconds', pt: 'segundos', it: 'secondi' },
+    success: { es: '¡Mensaje enviado exitosamente!', en: 'Message sent successfully!', pt: 'Mensagem enviada com sucesso!', it: 'Messaggio inviato con successo!' },
+    error: { es: 'Hubo un error al enviar el mensaje. Intenta nuevamente.', en: 'There was an error sending the message. Please try again.', pt: 'Ocorreu um erro ao enviar a mensagem. Tente novamente.', it: 'Si è verificato un errore nell\'invio del messaggio. Riprova.' },
+    errorLimit: { es: 'Por favor espera antes de enviar otro mensaje.', en: 'Please wait before sending another message.', pt: 'Por favor, aguarde antes de enviar outra mensagem.', it: 'Si prega di attendere prima di inviare un altro messaggio.' },
+    downloadCV: { es: 'Descargar CV', en: 'Download CV', pt: 'Baixar CV', it: 'Scarica CV' },
+    terminalWelcome: {
+      es: '> Bienvenido a mi terminal interactivo',
+      en: '> Welcome to my interactive terminal',
+      pt: '> Bem-vindo ao meu terminal interativo',
+      it: '> Benvenuto nel mio terminale interattivo'
+    },
+    terminalStatus: {
+      es: '> Estado: Disponible para nuevos proyectos',
+      en: '> Status: Available for new projects',
+      pt: '> Status: Disponível para novos projetos',
+      it: '> Stato: Disponibile per nuovi progetti'
+    },
+    terminalLocation: {
+      es: '> Ubicación: Chile 🇨🇱',
+      en: '> Location: Chile 🇨🇱',
+      pt: '> Localização: Chile 🇨🇱',
+      it: '> Posizione: Cile 🇨🇱'
+    },
+    terminalPrompt: {
+      es: '> Envíame un mensaje para comenzar...',
+      en: '> Send me a message to get started...',
+      pt: '> Envie-me uma mensagem para começar...',
+      it: '> Inviami un messaggio per iniziare...'
+    }
+  },
+  footer: {
+    copyright: '© {year} Sebastian Vargas B. Todos los derechos reservados.',
+    inclusion: 'Candidato Ley de Inclusión Laboral N°21.015 - RND',
+  },
+  darkMode: { es: 'Modo Oscuro', en: 'Dark Mode', pt: 'Modo Escuro', it: 'Modalità Scura' },
+  lightMode: { es: 'Modo Claro', en: 'Light Mode', pt: 'Modo Claro', it: 'Modalità Chiara' },
+  changeLanguage: { es: 'Cambiar Idioma', en: 'Change Language', pt: 'Mudar Idioma', it: 'Cambia Lingua' },
+};
+
+// Contact Information
+export const contactInfo = {
+  linkedin: 'https://www.linkedin.com/in/svb404/',
+  email: 'sebavarber.proton.me',
+  phone: '+569 36396900',
+  location: 'Santiago, Chile'
+};

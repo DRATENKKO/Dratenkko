@@ -1,0 +1,170 @@
+  {
+    id: 'taskflow',
+    title: 'TaskFlow Pro',
+    shortDescription: {
+      es: 'Sistema de gestión de tareas con React y Node.js',
+      en: 'Task management system with React and Node.js',
+      pt: 'Sistema de gerenciamento de tarefas com React e Node.js',
+      it: 'Sistema di gestione attività con React e Node.js'
+    },
+    fullDescription: {
+      es: 'Aplicación web completa para gestión de proyectos y tareas colaborativas. Desarrollé frontend con React, backend con Node.js/Express, y base de datos MongoDB. Incluye tiempo real con WebSocket, notificaciones, y systema de comentarios.',
+      en: 'Complete web application for project and collaborative task management. Developed frontend with React, backend with Node.js/Express, and MongoDB database. Includes real-time with WebSocket, notifications, and comment system.',
+      pt: 'Aplicação web completa para gerenciamento de projetos e tarefas colaborativas. Desenvolvi frontend com React, backend com Node.js/Express e banco de dados MongoDB. Inclui tempo real com WebSocket, notificações e sistema de comentários.',
+      it: 'Applicazione web completa per la gestione di progetti e attività collaborative. Sviluppato frontend con React, backend con Node.js/Express e database MongoDB. Include tempo reale con WebSocket, notifiche e sistema di commenti.'
+    },
+    type: 'Productivity Tool',
+    thumbnail: 'taskflow.jpg',
+    technologies: ['React', 'Node.js', 'Express', 'MongoDB', 'Socket.io', 'Redux'],
+    company: 'Freelance',
+    role: 'Full Stack Developer',
+    period: 'Marzo 2024 — Mayo 2024',
+    achievements: {
+      es: '• +1000 usuarios registrados\n• Sistema de notificaciones en tiempo real\n• 99.9% uptime',
+      en: '• +1000 registered users\n• Real-time notification system\n• 99.9% uptime',
+      pt: '• +1000 usuários registrados\n• Sistema de notificações em tempo real\n• 99.9% uptime',
+      it: '• +1000 utenti registrati\n• Sistema di notifiche in tempo reale\n• 99.9% uptime'
+    },
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    images: [
+      { url: 'taskflow-1.jpg', caption: { es: 'Dashboard de Proyectos', en: 'Project Dashboard', pt: 'Dashboard de Projetos', it: 'Dashboard Progetti' } },
+      { url: 'taskflow-2.jpg', caption: { es: 'Vista de Tareas', en: 'Task View', pt: 'Visão de Tarefas', it: 'Vista Attività' } },
+      { url: 'taskflow-3.jpg', caption: { es: 'Colaboración en Tiempo Real', en: 'Real-time Collaboration', pt: 'Colaboração em Tempo Real', it: 'Collaborazione in Tempo Reale' } },
+      { url: 'taskflow-4.jpg', caption: { es: 'Móvil Responsive', en: 'Mobile Responsive', pt: 'Mobile Responsivo', it: 'Mobile Responsive' } },
+    ]
+  },
+  {
+    id: 'weatherapi',
+    title: 'Weather Dashboard API',
+    shortDescription: {
+      es: 'Dashboard del clima con integración de múltiples APIs',
+      en: 'Weather dashboard with multiple API integrations',
+      pt: 'Dashboard meteorológico com múltiplas integrações de API',
+      it: 'Dashboard meteo con integrazioni di multiple API'
+    },
+    fullDescription: {
+      es: 'Aplicación que consume múltiples APIs meteorológicas para mostrar datos del clima en tiempo real, predicciones a 7 días, mapas interactivos, y alertas severas. Implementé caching con Redis y optimización de requests para mejorar el rendimiento.',
+      en: 'Application consuming multiple weather APIs to display real-time weather data, 7-day forecasts, interactive maps, and severe weather alerts. Implemented caching with Redis and request optimization to improve performance.',
+      pt: 'Aplicação que consome múltiplas APIs meteorológicas para exibir dados climáticos em tempo real, previsões de 7 dias, mapas interativos e alertas climáticos severos. Implementei cache com Redis e otimização de requests para melhorar desempenho.',
+      it: 'Applicazione che consume più API meteorologiche per mostrare dati climatici in tempo reale, previsioni a 7 giorni, mappe interattivi e avvisi meteorologici severi. Ho implementato la cache con Redis e l\'ottimizzazione delle richieste per migliorare le prestazioni.'
+    },
+    type: 'API Integration',
+    thumbnail: 'weather.jpg',
+    technologies: ['React', 'TypeScript', 'OpenWeather API', 'Redis', 'Chart.js', 'Axios'],
+    company: 'Personal Project',
+    role: 'Full Stack Developer',
+    period: 'Junio 2024 — Julio 2024',
+    achievements: {
+      es: '• Integración de 5 APIs climáticas\n• Tiempo de respuesta reducido en 60%\n• +5000 usuarios activos',
+      en: '• Integration of 5 weather APIs\n• Response time reduced by 60%\n• +5000 active users',
+      pt: '• Integração de 5 APIs climáticas\n• Tempo de resposta reduzido em 60%\n• +5000 usuários ativos',
+      it: '• Integrazione di 5 API meteorologiche\n• Tempo di risposta ridotto del 60%\n• +5000 utenti attivi'
+    },
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    images: [
+      { url: 'weather-1.jpg', caption: { es: 'Vista Principal', en: 'Main View', pt: 'Vista Principal', it: 'Vista Principale' } },
+      { url: 'weather-2.jpg', caption: { es: 'Mapa Interactivo', en: 'Interactive Map', pt: 'Mapa Interativo', it: 'Mappa Interattivo' } },
+      { url: 'weather-3.jpg', caption: { es: 'Pronóstico 7 Días', en: '7-Day Forecast', pt: 'Previsão 7 Dias', it: 'Previsione 7 Giorni' } },
+      { url: 'weather-4.jpg', caption: { es: 'Alertas Climáticas', en: 'Weather Alerts', pt: 'Alertas Climáticas', it: 'Avvisi Meteorologici' } },
+    ]
+  },
+  {
+    id: 'cryptotracker',
+    title: 'CryptoTracker Pro',
+    shortDescription: {
+      es: 'Seguimiento de criptomonedas en tiempo real',
+      en: 'Real-time cryptocurrency tracking',
+      pt: 'Rastreamento de criptomoedas em tempo real',
+      it: 'Tracciamento criptovalute in tempo reale'
+    },
+    fullDescription: {
+      es: 'Plataforma para seguimiento de precios de criptomonedas con datos en tiempo real de múltiples exchanges. Incluye gráficos interactivos, alertas de precios, portafolio virtual, y análisis técnico avanzado.',
+      en: 'Platform for cryptocurrency price tracking with real-time data from multiple exchanges. Includes interactive charts, price alerts, virtual portfolio, and advanced technical analysis.',
+      pt: 'Plataforma para rastreamento de preços de criptomoedas com dados em tempo real de múltiplas exchanges. Inclui gráficos interativos, alertas de preços, portfólio virtual e análise técnica avançada.',
+      it: 'Piattaforma per il tracciamento dei prezzi delle criptovalute con dati in tempo reale da molteplici exchange. Include grafici interattivi, avvisi sui prezzi, portafoglio virtuale e analisi tecnica avanzata.'
+    },
+    type: 'FinTech',
+    thumbnail: 'crypto.jpg',
+    technologies: ['React', 'TypeScript', 'WebSocket', 'Chart.js', 'CoinGecko API', 'Tailwind'],
+    company: 'Personal Project',
+    role: 'Frontend Developer',
+    period: 'Abril 2024 — Mayo 2024',
+    achievements: {
+      es: '• Tracking de 100+ criptomonedas\n• Actualizaciones cada 500ms\n• Sistema de alertas personalizables',
+      en: '• Tracking of 100+ cryptocurrencies\n• Updates every 500ms\n• Customizable alert system',
+      pt: '• Rastreamento de 100+ criptomoedas\n• Atualizações a cada 500ms\n• Sistema de alertas personalizável',
+      it: '• Tracciamento di 100+ criptovalute\n• Aggiornamenti ogni 500ms\n• Sistema di avvisi personalizzabile'
+    },
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    images: [
+      { url: 'crypto-1.jpg', caption: { es: 'Dashboard Principal', en: 'Main Dashboard', pt: 'Dashboard Principal', it: 'Dashboard Principale' } },
+      { url: 'crypto-2.jpg', caption: { es: 'Gráficos de Precios', en: 'Price Charts', pt: 'Gráficos de Preços', it: 'Grafici Prezzi' } },
+      { url: 'crypto-3.jpg', caption: { es: 'Portafolio Virtual', en: 'Virtual Portfolio', pt: 'Portfólio Virtual', it: 'Portafoglio Virtuale' } },
+      { url: 'crypto-4.jpg', caption: { es: 'Alertas', en: 'Alerts', pt: 'Alertas', it: 'Avvisi' } },
+    ]
+  },
+  {
+    id: 'ecommerce',
+    title: 'ShopMaster E-Commerce',
+    shortDescription: {
+      es: 'Plataforma de comercio electrónico completa',
+      en: 'Complete e-commerce platform',
+      pt: 'Plataforma de comércio eletrônico completa',
+      it: 'Piattaforma e-commerce completa'
+    },
+    fullDescription: {
+      es: 'Desarrollo de plataforma e-commerce con carrito de compras, pasarela de pagos integrada, gestión de inventario, panel de administración, y sistema de análisis de ventas. Integración con PayPal y Stripe.',
+      en: 'Development of e-commerce platform with shopping cart, integrated payment gateway, inventory management, admin panel, and sales analytics system. Integration with PayPal and Stripe.',
+      pt: 'Desenvolvimento de plataforma e-commerce com carrinho de compras, gateway de pagamento integrado, gerenciamento de inventário, painel administrativo e sistema de análise de vendas. Integração com PayPal e Stripe.',
+      it: 'Sviluppo di piattaforma e-commerce con carrello della spesa, gateway di pagamento integrato, gestione inventario, pannello di amministrazione e sistema di analisi delle vendite. Integrazione con PayPal e Stripe.'
+    },
+    type: 'E-Commerce',
+    thumbnail: 'ecommerce.jpg',
+    technologies: ['Next.js', 'TypeScript', 'Stripe', 'MongoDB', 'Node.js', 'Prisma'],
+    company: 'Freelance',
+    role: 'Full Stack Developer',
+    period: 'Julio 2024 — Agosto 2024',
+    achievements: {
+      es: '• Procesamiento de pagos seguro\n• 200+ productos en catálogo\n• 50+ pedidos procesados diariamente',
+      en: '• Secure payment processing\n• 200+ products in catalog\n• 50+ orders processed daily',
+      pt: '• Processamento de pagamentos seguro\n• 200+ produtos no catálogo\n• 50+ pedidos processados diariamente',
+      it: '• Elaborazione sicura dei pagamenti\n• 200+ prodotti nel catalogo\n• 50+ ordini elaborati quotidianamente'
+    },
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    images: [
+      { url: 'ecommerce-1.jpg', caption: { es: 'Tienda Online', en: 'Online Store', pt: 'Loja Online', it: 'Negozio Online' } },
+      { url: 'ecommerce-2.jpg', caption: { es: 'Carrito de Compras', en: 'Shopping Cart', pt: 'Carrinho de Compras', it: 'Carrello della Spesa' } },
+      { url: 'ecommerce-3.jpg', caption: { es: 'Checkout Seguro', en: 'Secure Checkout', pt: 'Checkout Seguro', it: 'Checkout Sicuro' } },
+      { url: 'ecommerce-4.jpg', caption: { es: 'Panel Admin', en: 'Admin Panel', pt: 'Painel Admin', it: 'Pannello Admin' } },
+    ]
+  },
+  {
+    id: 'blank',
+    title: 'Próximo Proyecto',
+    shortDescription: {
+      es: 'Proximamente más información',
+      en: 'More information coming soon',
+      pt: 'Mais informações em breve',
+      it: 'Ulteriori informazioni in arrivo'
+    },
+    fullDescription: {
+      es: 'Este proyecto está en desarrollo. Próximamente más información sobre las características, tecnologías y logros alcanzados.',
+      en: 'This project is under development. More information about features, technologies, and achievements coming soon.',
+      pt: 'Este projeto está em desenvolvimento. Mais informações sobre recursos, tecnologias e conquistas em breve.',
+      it: 'Questo progetto è in fase di sviluppo. Ulteriori informazioni su caratteristiche, tecnologie e risultati a breve.'
+    },
+    type: 'Coming Soon',
+    thumbnail: 'placeholder.jpg',
+    technologies: ['TBD', 'TBD', 'TBD'],
+    company: 'TBD',
+    role: 'TBD',
+    period: 'TBD',
+    achievements: {
+      es: '• En desarrollo\n• Más información pronto',
+      en: '• Under development\n• More information soon',
+      pt: '• Em desenvolvimento\n• Mais informações em breve',
+      it: '• In sviluppo\n• Ulteriori informazioni in arrivo'
+    },
+    videoUrl: '',
+    images: []
+  },
