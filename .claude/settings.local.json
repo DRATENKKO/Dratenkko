@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(pnpm list:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm dev:*)",
+      "Bash(timeout:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(findstr:*)",
+      "Bash(npm run build:*)",
+      "Bash(cmd /c \"type \"\"d:\\\\PCPCPCPCPCPCPCPCPCPCPCCPCP\\\\mi-portafoliou\\\\mi-portafolio\\\\src\\\\components\\\\layout\\\\Navbar.tsx\"\" 2>nul | findstr /N \"\"text-white\"\"\")",
+      "Bash(powershell:*)",
+      "Bash(python:*)",
+      "Bash(git config:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)",
+      "Bash(npm install:*)"
+    ]
+  }
+}
