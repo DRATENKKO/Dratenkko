@@ -200,7 +200,6 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
         <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-3xl blur-lg opacity-30" />
         
         <div className="relative bg-gray-900 rounded-2xl shadow-2xl border border-gray-700/50 overflow-hidden max-h-[85vh] flex flex-col">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 flex-shrink-0" />
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500" />
           
           <div className="flex items-center justify-between px-4 py-3 bg-gray-800/80 backdrop-blur-sm">
