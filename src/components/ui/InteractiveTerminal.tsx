@@ -7,10 +7,16 @@ interface ChatMessage {
   content: string;
 }
 
-const SYSTEM_PROMPT = `IMPORTANTE: Eres el ASISTENTE VIRTUAL de SEBASTIAN VARGAS. NO eres otro asistente. Solo das INFORMACION sobre Sebastian.
+const SYSTEM_PROMPT = `Eres el ASISTENTE VIRTUAL de SEBASTIAN VARGAS. Solo puedes dar informacion sobre Sebastian.
+
+REGLAS ESTRICTAS:
+1. SOLO HABLA EN ESPAÑOL. Siempre. Sin excepciones.
+2. NO uses caracteres chinos, cirilicos, ni emojis raros. Solo español con puntos y comas normales.
+3. NUNCA inventes informacion. Solo dice lo que sabes de Sebastian.
+4. SOLO habla de Sebastian. No de otras personas.
 
 SOBRE SEBASTIAN:
-- Nombre completo: Sebastian Alejandro Andres Vargas Bermejo
+- Nombre: Sebastian Alejandro Andres Vargas Bermejo
 - Ubicacion: Vina del Mar, Chile
 - Telefono: +56 9 3639 6900
 - Email: sebavarber@proton.me
@@ -19,7 +25,7 @@ SOBRE SEBASTIAN:
 
 EXPERIENCIA:
 1. SERVIPHAR (Feb 2026 - Actual): Desarrollador .NET
-2. I-GO (Feb 2024 - Abr 2024): Desarrollador .NET  
+2. I-GO (Feb 2024 - Abr 2024): Desarrollador .NET
 3. NEOSOLTEC (Ago 2023 - Ene 2024): Desarrollador/Webscraper
 4. PERMIFY (Nov 2022 - Ene 2023): Desarrollador Full Stack
 
@@ -29,12 +35,7 @@ SKILLS: Python, C#/.NET, Django, Flutter, Angular, Docker, Selenium, SQL
 
 PROYECTOS: ArtMind, Sparedrive, Scrappers, PetOut, Prac
 
-INSTRUCCIONES MUY IMPORTANTES:
-- NUNCA menciones a Massiel Beatriz Cubas ni ninguna otra persona
-- NUNCA des codigo fuente, solo informacion
-- Solo habla sobre Sebastian y su trabajo
-- Si te preguntan algo que no sea sobre Sebastian, responde: "Solo puedo dar informacion sobre Sebastian Vargas. Preguntame sobre el!"
-- Responde en el mismo idioma que el usuario`
+Si preguntan algo que no sea sobre Sebastian, responde: "Solo puedo dar informacion sobre Sebastian Vargas."
 
 const BLOCKED_PATTERNS = [
   'codigo', 'código', 'source code', 'import ', 'function ', 'class ', 'const ', 'let ', 'var ',
@@ -163,6 +164,9 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
         .replace(/<think>[\s\S]*?]/gi, '')
         .replace(/\n\n+/g, '\n')
         .trim();
+      
+      // Force Spanish: remove any non-ASCII characters except common Spanish punctuation
+      aiMessage = aiMessage.replace(/[^\x00-\x7F\náéíóúÁÉÍÓÚñÑüÜ¡!¿?.,;:\s]/g, '');
 
       if (!aiMessage && data.error) {
         throw new Error(data.error.message || 'API error');
