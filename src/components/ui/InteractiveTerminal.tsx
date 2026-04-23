@@ -87,7 +87,8 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
     }
 
     const userMessage = text.trim();
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    const newMessages = [...messages, { role: 'user' as const, content: userMessage }];
+    setMessages(newMessages);
     setInput('');
     setIsTyping(true);
     setError(null);
@@ -98,22 +99,29 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: userMessage,
-          history: messages.slice(-10),
+          history: newMessages.slice(-10),
         }),
       });
 
       const data = await response.json();
+      console.log('Chat response:', data);
 
       if (data.error) {
-        setError(data.error);
+        const errorMsg = data.details?.error?.message || data.error;
+        setError(errorMsg);
         setMessages(prev => [...prev, {
           role: 'assistant',
           content: language === 'es' 
-            ? '❌ Error de conexión. Intenta de nuevo.'
-            : '❌ Connection error. Please try again.'
+            ? `❌ Error: ${errorMsg}`
+            : `❌ Error: ${errorMsg}`
         }]);
-      } else {
+      } else if (data.response) {
         setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
+      } else {
+        setMessages(prev => [...prev, {
+          role: 'assistant',
+          content: 'No pude obtener respuesta.'
+        }]);
       }
     } catch (err) {
       setError('Network error');
