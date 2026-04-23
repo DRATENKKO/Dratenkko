@@ -194,12 +194,13 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
         animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 30, rotateX: 10 }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
-        className="fixed bottom-24 right-4 sm:right-6 z-50 w-[calc(100%-2rem)] sm:w-[380px] lg:w-96"
+        className="fixed inset-x-4 bottom-24 sm:inset-auto sm:right-4 sm:w-[380px] lg:w-96 z-50 mx-auto sm:mx-0"
         style={{ perspective: '1000px' }}
       >
         <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-3xl blur-lg opacity-30" />
         
-        <div className="relative bg-gray-900 rounded-2xl shadow-2xl border border-gray-700/50 overflow-hidden">
+        <div className="relative bg-gray-900 rounded-2xl shadow-2xl border border-gray-700/50 overflow-hidden max-h-[85vh] flex flex-col">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 flex-shrink-0" />
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500" />
           
           <div className="flex items-center justify-between px-4 py-3 bg-gray-800/80 backdrop-blur-sm">
@@ -224,7 +225,7 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
 
           <div
             ref={terminalRef}
-            className="h-80 overflow-y-auto p-4 space-y-3 scrollbar-thin scrollbar-thumb-gray-700"
+            className="h-72 sm:h-80 overflow-y-auto p-3 sm:p-4 space-y-3 scrollbar-thin scrollbar-thumb-gray-700"
           >
             {messages.map((msg, index) => (
               <motion.div
@@ -235,10 +236,10 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
                 className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[85%] px-4 py-2.5 rounded-2xl font-mono text-sm whitespace-pre-wrap leading-relaxed ${
+                  className={`max-w-[85%] sm:max-w-[85%] px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl text-sm sm:text-sm whitespace-pre-wrap leading-relaxed ${
                     msg.role === 'user'
                       ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-br-md'
-                      : 'bg-gray-800/80 text-cyan-300/90 border border-gray-700/30 rounded-bl-md'
+                      : 'bg-gray-800/80 text-cyan-100 border border-gray-700/30 rounded-bl-md'
                   }`}
                 >
                   {msg.content}
@@ -255,7 +256,7 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
                 <motion.span
                   animate={{ opacity: [0.3, 1, 0.3], x: [0, 5, 0] }}
                   transition={{ duration: 1, repeat: Infinity }}
-                  className="text-cyan-400 font-mono text-sm"
+                  className="text-cyan-400 font-mono text-base sm:text-sm"
                 >
                   ▋
                 </motion.span>
@@ -263,22 +264,22 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
             )}
 
             {error && (
-              <div className="text-red-400 font-mono text-xs text-center">
+              <div className="text-red-400 font-mono text-xs sm:text-sm text-center">
                 ❌ {error}
               </div>
             )}
           </div>
 
-          <form onSubmit={handleSubmit} className="p-3 bg-gray-800/60 border-t border-gray-700/30">
-            <div className="flex items-center gap-2 px-3 py-2.5 bg-gray-900/50 rounded-xl border border-gray-700/30">
-              <Code2 size={14} className="text-purple-400 flex-shrink-0" />
+          <form onSubmit={handleSubmit} className="p-3 sm:p-3 bg-gray-800/60 border-t border-gray-700/30">
+            <div className="flex items-center gap-2 px-3 sm:px-3 py-2.5 sm:py-2.5 bg-gray-900/50 rounded-xl border border-gray-700/30">
+              <Code2 size={16} className="text-purple-400 flex-shrink-0" />
               <input
                 ref={inputRef}
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={language === 'es' ? 'pregúntame sobre Sebastián...' : 'ask me about Sebastián...'}
-                className="flex-1 bg-transparent text-white/90 font-mono text-sm outline-none placeholder-gray-600"
+                className="flex-1 bg-transparent text-white text-base sm:text-sm outline-none placeholder-gray-500"
                 autoComplete="off"
                 disabled={isTyping}
               />
@@ -287,9 +288,9 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 disabled={isTyping || !input.trim()}
-                className="p-1.5 bg-cyan-500/20 hover:bg-cyan-500/30 rounded-lg transition-colors disabled:opacity-50"
+                className="p-2 sm:p-1.5 bg-cyan-500/20 hover:bg-cyan-500/30 rounded-lg transition-colors disabled:opacity-50 min-w-[44px] min-h-[44px] flex items-center justify-center"
               >
-                <Send size={14} className="text-cyan-400" />
+                <Send size={18} className="text-cyan-400" />
               </motion.button>
             </div>
 
