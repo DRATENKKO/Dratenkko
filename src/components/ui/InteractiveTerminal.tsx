@@ -48,19 +48,13 @@ function isCodeRequest(text: string): boolean {
   return BLOCKED_PATTERNS.some(pattern => lower.includes(pattern));
 }
 
-const WELCOME_ES = `⚡ ¡Hola! Soy el asistente de Sebastián.
-💡 Pregúntame sobre él, su experiencia, proyectos o habilidades.
+const WELCOME_ES = `[AI] Hola! Soy el asistente de Sebastian. Preguntame sobre el, su experiencia, proyectos o habilidades. No puedo ayudar con codigo.`;
 
-❌ No puedo ayudarte con código, pero puedo contarte sobre el trabajo de Sebastián.`;
+const WELCOME_EN = `[AI] Hi! I'm Sebastian's assistant. Ask me about him, his experience, projects or skills. I can't help with code.`;
 
-const WELCOME_EN = `⚡ Hi! I'm Sebastián's assistant.
-💡 Ask me about him, his experience, projects or skills.
+const CODE_BLOCK_ES = "Lo siento, no puedo ayudarte con codigo. Que otra cosa quieres saber sobre Sebastian?";
 
-❌ I can't help with code, but I can tell you about Sebastián's work.`;
-
-const CODE_BLOCK_ES = "Lo siento, no puedo ayudarte con código. ¿Hay algo más que quieras saber sobre Sebastián o su trabajo?";
-
-const CODE_BLOCK_EN = "Sorry, I can't help with code. Is there something else you'd like to know about Sebastián or his work?";
+const CODE_BLOCK_EN = "Sorry, I can't help with code. What else would you like to know about Sebastian?";
 
 const quickLinks = [
   { label: 'GitHub', url: 'https://github.com/Dratenkko' },
