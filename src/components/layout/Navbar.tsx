@@ -160,14 +160,15 @@ export const Navbar = ({
               </AnimatePresence>
             </motion.div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - 48x48px touch target */}
             <motion.button
-              className="xl:hidden p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all"
+              className="xl:hidden p-3 min-w-[48px] min-h-[48px] rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all flex items-center justify-center"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               whileTap={{ scale: 0.95 }}
               aria-label="Menu"
+              aria-expanded={isMenuOpen}
             >
-              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </motion.button>
           </div>
         </div>

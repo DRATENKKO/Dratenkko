@@ -91,8 +91,8 @@ const Portfolio = () => {
         )}
       </AnimatePresence>
 
-      {/* Creative Terminal Button */}
-      <div className="fixed bottom-24 right-4 sm:right-6 z-50">
+      {/* Creative Terminal Button - Bottom above WhatsApp */}
+      <div className="fixed bottom-28 right-4 sm:bottom-24 sm:right-6 z-50">
         <motion.button
           onClick={() => setIsTerminalOpen(true)}
           whileHover={{ scale: 1.05 }}
@@ -101,14 +101,14 @@ const Portfolio = () => {
           aria-label="Abrir terminal creativo"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-full blur-lg opacity-40 group-hover:opacity-60 transition-opacity duration-300" />
-          <div className="relative w-12 h-12 sm:w-14 sm:h-14 bg-gray-900 rounded-full flex items-center justify-center shadow-2xl border border-gray-700">
-            <Sparkles size={18} className="text-cyan-400" />
+          <div className="relative w-14 h-14 bg-gray-900 rounded-full flex items-center justify-center shadow-2xl border border-gray-700">
+            <Sparkles size={20} className="text-cyan-400" />
           </div>
           <div className="absolute inset-0 rounded-full border-2 border-cyan-500 animate-ping opacity-20" />
         </motion.button>
       </div>
 
-      {/* WhatsApp Floating Button */}
+      {/* WhatsApp Floating Button - Always visible, 56px */}
       <motion.a
         href="https://wa.me/56936396900"
         target="_blank"
@@ -117,7 +117,8 @@ const Portfolio = () => {
         animate={{ scale: 1 }}
         transition={{ delay: 0.5, type: 'spring' }}
         whileHover={{ scale: 1.1 }}
-        className="fixed bottom-6 right-4 sm:right-6 w-12 h-12 sm:w-14 sm:h-14 bg-green-500 rounded-full flex items-center justify-center shadow-xl z-50 border-2 border-white/20 hover:shadow-2xl transition-all"
+        className="fixed bottom-6 right-4 sm:bottom-6 sm:right-6 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-xl z-50 border-2 border-white/20 hover:shadow-2xl transition-all"
+        style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }}
       >
         <MessageCircle size={22} className="text-white" />
         <div className="absolute inset-0 bg-green-500 rounded-full blur-md opacity-40" />

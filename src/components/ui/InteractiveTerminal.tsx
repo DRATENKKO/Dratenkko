@@ -146,7 +146,6 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
       });
 
       const data = await response.json();
-      console.log('API Response:', JSON.stringify(data).substring(0, 500));
 
       // Extract text from MiniMax standard response
       let aiMessage = '';
@@ -155,6 +154,9 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
       } else if (data.content) {
         aiMessage = data.content;
       }
+
+      // Strip thinking blocks: remove content between ━ and ━ markers
+      aiMessage = aiMessage.replace(/━━━━━━━━━━━━━━━━━━[\s\S]*?━━━━━━━━━━━━━━━━━━/g, '').trim();
 
       if (!aiMessage && data.error) {
         throw new Error(data.error.message || 'API error');
@@ -291,7 +293,7 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
               </motion.button>
             </div>
 
-            <div className="flex gap-2 mt-2">
+            <div className="flex gap-2 mt-2 hidden sm:flex">
               {quickLinks.map((link) => (
                 <motion.a
                   key={link.label}
