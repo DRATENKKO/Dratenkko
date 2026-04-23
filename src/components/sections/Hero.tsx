@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Linkedin, Github, Award, Sparkles, Code2, ChevronDown } from 'lucide-react';
+import { Linkedin, Github, Award, Sparkles, Code2, ChevronDown, MessageCircle } from 'lucide-react';
 import { translations, contactInfo } from '../../data/constants';
 
 interface HeroProps {
@@ -150,21 +150,21 @@ export const Hero = ({ language }: HeroProps) => {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1, y: -3 }}
               whileTap={{ scale: 0.95 }}
-              className="p-4 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 hover:border-blue-500 hover:shadow-xl transition-all duration-300"
+              className="p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 hover:border-blue-500 hover:shadow-xl transition-all duration-300 min-w-[48px] min-h-[48px] flex items-center justify-center"
               aria-label="LinkedIn"
             >
-              <Linkedin size={24} className="text-blue-600 dark:text-blue-400" />
+              <Linkedin size={22} className="text-blue-600 dark:text-blue-400" />
             </motion.a>
             <motion.a
-              href="https://github.com/Dratenkko"
+              href="https://wa.me/56936396900"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1, y: -3 }}
               whileTap={{ scale: 0.95 }}
-              className="p-4 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 hover:border-gray-900 dark:hover:border-white hover:shadow-xl transition-all duration-300"
-              aria-label="GitHub"
+              className="p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 hover:border-green-500 hover:shadow-xl transition-all duration-300 min-w-[48px] min-h-[48px] flex items-center justify-center"
+              aria-label="WhatsApp"
             >
-              <Github size={24} className="text-gray-800 dark:text-white" />
+              <MessageCircle size={22} className="text-green-600 dark:text-green-400" />
             </motion.a>
           </motion.div>
 

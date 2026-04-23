@@ -56,11 +56,8 @@ export const Navbar = ({
           <div className="hidden xl:flex items-center gap-1">
             {[
               { href: '#inicio', label: t.nav.home },
-              { href: '#experiencia', label: t.nav.experience },
               { href: '#habilidades', label: t.nav.skills },
-              { href: '#blog', label: { es: 'Blog', en: 'Blog', pt: 'Blog', it: 'Blog' } },
               { href: '#proyectos', label: t.nav.projects },
-              { href: '#certificados', label: t.nav.certificates },
               { href: '#contacto', label: t.nav.contact },
             ].map((item) => (
               <a
@@ -186,11 +183,8 @@ export const Navbar = ({
             >
               {[
                 { href: '#inicio', label: t.nav.home },
-                { href: '#experiencia', label: t.nav.experience },
                 { href: '#habilidades', label: t.nav.skills },
-                { href: '#blog', label: { es: 'Blog', en: 'Blog', pt: 'Blog', it: 'Blog' } },
                 { href: '#proyectos', label: t.nav.projects },
-                { href: '#certificados', label: t.nav.certificates },
                 { href: '#contacto', label: t.nav.contact },
               ].map((item, i) => (
                 <motion.a
