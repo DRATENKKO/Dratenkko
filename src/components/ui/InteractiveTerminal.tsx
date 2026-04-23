@@ -8,7 +8,7 @@ interface ChatMessage {
 }
 
 const BLOCKED_PATTERNS = [
-  'codigo', 'código', 'source code', '源代码', 'import ', 'function ', 'class ', 'const ', 'let ', 'var ',
+  'codigo', 'codigo', 'source code', 'import ', 'function ', 'class ', 'const ', 'let ', 'var ',
   'def ', 'python', 'javascript', 'typescript', 'c#', '.net', 'write code', 'help me code',
   'dame el codigo', 'show me code', 'how to code', 'create a', 'build a', 'implement',
 ];
@@ -23,6 +23,20 @@ const quickLinks = [
   { label: 'LinkedIn', url: 'https://linkedin.com/in/svb404' },
   { label: 'WhatsApp', url: 'https://wa.me/56936396900' },
 ];
+
+const WELCOME_ES = `⚡ ¡Hola! Soy el asistente de Sebastián.
+💡 Pregúntame sobre él, su experiencia, proyectos o habilidades.
+
+❌ No puedo ayudarte con código, pero puedo contarte sobre el trabajo de Sebastián.`;
+
+const WELCOME_EN = `⚡ Hi! I'm Sebastián's assistant.
+💡 Ask me about him, his experience, projects or skills.
+
+❌ I can't help with code, but I can tell you about Sebastián's work.`;
+
+const CODE_BLOCK_ES = "Lo siento, no puedo ayudarte con código. ¿Hay algo más que quieras saber sobre Sebastián o su trabajo?";
+
+const CODE_BLOCK_EN = "Sorry, I can't help with code. Is there something else you'd like to know about Sebastián or his work?";
 
 interface InteractiveTerminalProps {
   language: string;
@@ -56,9 +70,7 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
       setShowWelcome(false);
       setMessages([{
         role: 'assistant',
-        content: language === 'es' 
-          ? '⚡ ¡Hola! Soy el asistente de Sebastián.\n💡 Pregúntame sobre él, su experiencia, proyectos o habilidades.\n\n❌ No puedo ayudarte con código, pero puedo contarte sobre el trabajo de Sebastián.'
-          : '⚡ Hi! I'm Sebastián's assistant.\n💡 Ask me about him, his experience, projects or skills.\n\n❌ I can't help with code, but I can tell you about Sebastián's work.',
+        content: language === 'es' ? WELCOME_ES : WELCOME_EN,
       }]);
     }
   }, [isOpen, language, showWelcome]);
@@ -66,13 +78,10 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
   const sendMessage = async (text: string) => {
     if (!text.trim() || isTyping) return;
 
-    // Check for code requests
     if (isCodeRequest(text)) {
       setMessages(prev => [...prev, 
         { role: 'user', content: text },
-        { role: 'assistant', content: language === 'es' 
-          ? "Lo siento, no puedo ayudarte con código. ¿Hay algo más que quieras saber sobre Sebastián o su trabajo?"
-          : "Sorry, I can't help with code. Is there something else you'd like to know about Sebastián or his work?" }
+        { role: 'assistant', content: language === 'es' ? CODE_BLOCK_ES : CODE_BLOCK_EN }
       ]);
       return;
     }
@@ -136,15 +145,11 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
         className="fixed bottom-24 right-4 sm:right-6 z-50 w-[calc(100%-2rem)] sm:w-[380px] lg:w-96"
         style={{ perspective: '1000px' }}
       >
-        {/* Glow background */}
         <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-3xl blur-lg opacity-30" />
         
-        {/* Terminal Card */}
         <div className="relative bg-gray-900 rounded-2xl shadow-2xl border border-gray-700/50 overflow-hidden">
-          {/* Animated top border gradient */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500" />
           
-          {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 bg-gray-800/80 backdrop-blur-sm">
             <div className="flex items-center gap-2">
               <div className="relative">
@@ -165,7 +170,6 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
             </button>
           </div>
 
-          {/* Chat Messages */}
           <div
             ref={terminalRef}
             className="h-80 overflow-y-auto p-4 space-y-3 scrollbar-thin scrollbar-thumb-gray-700"
@@ -190,7 +194,6 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
               </motion.div>
             ))}
             
-            {/* Typing indicator */}
             {isTyping && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -207,7 +210,6 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
               </motion.div>
             )}
 
-            {/* Error message */}
             {error && (
               <div className="text-red-400 font-mono text-xs text-center">
                 ❌ {error}
@@ -215,7 +217,6 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
             )}
           </div>
 
-          {/* Input Area */}
           <form onSubmit={handleSubmit} className="p-3 bg-gray-800/60 border-t border-gray-700/30">
             <div className="flex items-center gap-2 px-3 py-2.5 bg-gray-900/50 rounded-xl border border-gray-700/30">
               <Code2 size={14} className="text-purple-400 flex-shrink-0" />
@@ -224,7 +225,7 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={language === 'es' ? 'pregúntame sobre Sebastián...' : 'ask me about Sebastián...'}
+                placeholder={language === 'es' ? 'pregun`tame sobre Sebastián...' : 'ask me about Sebastián...'}
                 className="flex-1 bg-transparent text-white/90 font-mono text-sm outline-none placeholder-gray-600"
                 autoComplete="off"
                 disabled={isTyping}
@@ -240,7 +241,6 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
               </motion.button>
             </div>
 
-            {/* Quick Actions */}
             <div className="flex gap-2 mt-2">
               {quickLinks.map((link) => (
                 <motion.a
