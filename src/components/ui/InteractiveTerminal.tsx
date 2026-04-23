@@ -128,48 +128,34 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
         role: m.role,
         content: m.content
       }));
-      
-      const response = await fetch('https://api.minimax.io/anthropic/v1/messages', {
+
+      // Use standard MiniMax endpoint for Token Plan
+      const response = await fetch('https://api.minimax.io/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Authorization': 'Bearer sk-cp-xhetS3mRR0cGsJJXc2kM9gboQphiLqLFEHdTpO8UE7EV2PN-LgwEVUr3M6iBq3coD0y-HB8eC8-tqN5wVUH8maYwZYySsKSVPLPhei_m660q1xNLKKvQ9GQ',
           'Content-Type': 'application/json',
-          'anthropic-version': '2023-06-01',
         },
         body: JSON.stringify({
           model: 'MiniMax-M2.7',
           messages: msgs,
-          max_tokens: 1000,
+          max_tokens: 500,
           system: SYSTEM_PROMPT,
           temperature: 0.8,
         }),
       });
 
       const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error?.message || `Error ${response.status}`);
-      }
-
-      // Extract text from response - handle multiple content blocks
-      let aiMessage = '';
       console.log('API Response:', JSON.stringify(data).substring(0, 500));
-      
-      if (data.content && Array.isArray(data.content)) {
-        for (const block of data.content) {
-          console.log('Block type:', block.type);
-          if (block.type === 'text' && block.text) {
-            aiMessage += block.text;
-          }
-        }
-      } else if (data.content?.text) {
-        // Some responses might have content as object with text directly
-        aiMessage = data.content.text;
+
+      // Extract text from MiniMax standard response
+      let aiMessage = '';
+      if (data.choices && data.choices[0]?.message?.content) {
+        aiMessage = data.choices[0].message.content;
+      } else if (data.content) {
+        aiMessage = data.content;
       }
-      
-      console.log('Extracted AI message:', aiMessage.substring(0, 200));
-      
-      // If still no message, check for error in response
+
       if (!aiMessage && data.error) {
         throw new Error(data.error.message || 'API error');
       }
