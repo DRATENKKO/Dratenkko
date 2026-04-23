@@ -5,6 +5,7 @@ import { Project } from '../data/constants';
 import { Navbar } from './layout/Navbar';
 import { Footer } from './layout/Footer';
 import { Hero } from './sections/Hero';
+import { Experience } from './sections/Experience';
 import { Skills } from './sections/Skills';
 import { Projects } from './sections/Projects';
 import { Contact } from './sections/Contact';
@@ -72,6 +73,7 @@ const Portfolio = () => {
 
       <main>
         <Hero language={language} />
+        <Experience language={language} />
         <Skills language={language} />
         <Projects language={language} onSelectProject={handleSelectProject} />
         <Contact language={language} />
