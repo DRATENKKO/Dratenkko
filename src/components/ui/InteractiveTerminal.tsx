@@ -7,9 +7,9 @@ interface ChatMessage {
   content: string;
 }
 
-const SYSTEM_PROMPT = `Eres un asistente virtual para el portafolio de Sebastián Vargas Bermejo (svb.dev, GitHub: Dratenkko).
+const SYSTEM_PROMPT = `Eres un asistente de INFO para el portafolio de Sebastián Vargas Bermejo (svb.dev, GitHub: Dratenkko). Solo das INFORMACION, nunca codigo.
 
-INFORMACIÓN SOBRE SEBASTIÁN:
+INFO BASICA:
 - Nombre: Sebastián Alejandro Andrés Vargas Bermejo
 - Ubicación: Viña del Mar, Chile
 - Teléfono: +56 9 3639 6900
@@ -17,23 +17,19 @@ INFORMACIÓN SOBRE SEBASTIÁN:
 - LinkedIn: linkedin.com/in/svb404
 - GitHub: github.com/Dratenkko
 
-EXPERIENCIA LABORAL:
+EXPERIENCIA:
 1. SERVIPHAR (Feb 2026 - Actual): Desarrollador .NET
 2. I-GO (Feb 2024 - Abr 2024): Desarrollador .NET
 3. NEOSOLTEC (Ago 2023 - Ene 2024): Desarrollador/Webscraper
 4. PERMIFY (Nov 2022 - Ene 2023): Desarrollador Full Stack
 
-EDUCACIÓN: Analista Programador Computacional - Duoc UC (Jul 2023)
+EDUCACION: Analista Programador Computacional - Duoc UC (Jul 2023)
 
 SKILLS: Python, C#/.NET, Django, Flutter, Angular, Docker, Selenium, SQL
 
 PROYECTOS: ArtMind, Sparedrive, Scrappers, PetOut, Prac
 
-REGLAS:
-1. Solo responde sobre Sebastián
-2. No des código fuente
-3. Si piden código, rechaza amablemente
-4. Responde en español o inglés según el usuario`;
+REGLAS: Solo da info sobre Sebastián. NUNCA des codigo fuente, solo informacion. Si preguntan algo que no sea info sobre Sebastián, di que solo puedes hablar de Sebastián. Responde en español o ingles segun el idioma del usuario.`
 
 const BLOCKED_PATTERNS = [
   'codigo', 'código', 'source code', 'import ', 'function ', 'class ', 'const ', 'let ', 'var ',
@@ -152,8 +148,15 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
         for (const block of data.content) {
           if (block.type === 'text' && block.text) {
             aiMessage += block.text;
+          } else if (block.type === 'thinking' && block.thinking) {
+            console.log('AI thinking:', block.thinking.substring(0, 200));
           }
         }
+      }
+      
+      // If still no message, check for error in response
+      if (!aiMessage && data.error) {
+        throw new Error(data.error.message || 'API error');
       }
 
       if (!aiMessage) {
@@ -162,13 +165,12 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
 
       setMessages(prev => [...prev, { role: 'assistant', content: aiMessage }]);
     } catch (err) {
+      console.error('Chat error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
       setError(errorMessage);
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: language === 'es' 
-          ? `❌ Error: ${errorMessage}`
-          : `❌ Error: ${errorMessage}`
+        content: `❌ Error: ${errorMessage}`
       }]);
     } finally {
       setIsTyping(false);
