@@ -92,7 +92,7 @@ const Portfolio = () => {
       </AnimatePresence>
 
       {/* Creative Terminal Button */}
-      <div className="fixed bottom-24 right-6 z-50 hidden sm:block">
+      <div className="fixed bottom-24 right-6 z-50">
         <motion.button
           onClick={() => setIsTerminalOpen(true)}
           whileHover={{ scale: 1.05 }}
