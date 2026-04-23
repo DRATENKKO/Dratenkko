@@ -56,7 +56,6 @@ export const Navbar = ({
           <div className="hidden xl:flex items-center gap-1">
             {[
               { href: '#inicio', label: t.nav.home },
-              { href: '#experiencia', label: t.nav.experience },
               { href: '#habilidades', label: t.nav.skills },
               { href: '#proyectos', label: t.nav.projects },
               { href: '#contacto', label: t.nav.contact },
@@ -184,7 +183,6 @@ export const Navbar = ({
             >
               {[
                 { href: '#inicio', label: t.nav.home },
-                { href: '#experiencia', label: t.nav.experience },
                 { href: '#habilidades', label: t.nav.skills },
                 { href: '#proyectos', label: t.nav.projects },
                 { href: '#contacto', label: t.nav.contact },
