@@ -398,25 +398,14 @@ export const projects: Project[] = [
 
 export const experience: Experience[] = [
   {
-    role: '.NET Developer',
-    company: 'Serviphar',
-    period: 'Febrero 2026 — Actualidad',
-    description: {
-      es: 'Desarrollé un cotizador de recetario magistral con .NET Core 10, construyendo APIs e integraciones para soportar procesos críticos del negocio. Implementé seguridad fuerte a nivel de endpoints para asegurar control de acceso por usuario y evitar consumo de rutas no autorizadas. Participé en el desarrollo de lógica backend, integraciones y servicios internos orientados a continuidad operativa. Desarrollé un generador de guías y facturas para SII orientado a procesamiento de despachos masivos y soporte logístico.',
-      en: 'Developed a magistral formula quotation system with .NET Core 10, building APIs and integrations to support critical business processes. Implemented strong endpoint-level security to ensure user access control and prevent unauthorized route consumption. Participated in backend logic development, integrations, and internal services focused on operational continuity. Developed a guide and invoice generator for SII focused on mass dispatch processing and logistics support.',
-      pt: 'Desenvolvi um sistema de cotação de fórmulas magistrais com .NET Core 10, construindo APIs e integrações para suportar processos críticos de negócios. Implementei segurança forte em nível de endpoints para garantir controle de acesso por usuário e evitar consumo de rotas não autorizadas. Participei do desenvolvimento de lógica backend, integrações e serviços internos orientados à continuidade operacional. Desenvolvi um gerador de guias e faturas para SII orientado ao processamento de despachos massivos e suporte logístico.',
-      it: 'Ho sviluppato un sistema di quotazione per formule magistrali con .NET Core 10, costruendo API e integrazioni per supportare processi aziendali critici. Ho implementato una forte sicurezza a livello di endpoint per garantire il controllo dell\'accesso utente ed evitare il consumo di route non autorizzate. Ho partecipato allo sviluppo della logica backend, integrazioni e servizi interni orientati alla continuità operativa. Ho sviluppato un generatore di guide e fatture per SII orientato all\'elaborazione di spedizioni massive e supporto logistico.',
-    },
-  },
-  {
     role: 'Full Stack Developer',
     company: 'Permify',
     period: 'Noviembre 2022 — Enero 2023',
     description: {
-      es: 'Desarrollo de aplicaciones web completas con Django y React. Implementación de arquitecturas escalables y microservicios.',
-      en: 'Full-stack web application development with Django and React. Implementation of scalable architectures and microservices.',
-      pt: 'Desenvolvimento de aplicações web full-stack com Django e React. Implementação de arquiteturas escaláveis e microsserviços.',
-      it: 'Sviluppo di applicazioni web full-stack con Django e React. Implementazione di architetture scalabili e microservizi.',
+      es: 'Desarrollo de aplicaciones web completas con Django y React. Implementación de arquitecturas escalables y microservicios para plataformas de terapia y arte para adultos mayores.',
+      en: 'Full-stack web application development with Django and React. Implementation of scalable architectures and microservices for art therapy platforms for elderly adults.',
+      pt: 'Desenvolvimento de aplicações web full-stack com Django e React. Implementação de arquiteturas escaláveis e microsserviços para plataformas de arteterapia para idosos.',
+      it: 'Sviluppo di applicazioni web full-stack con Django e React. Implementazione di architetture scalabili e microservizi per piattaforme di arteterapia per anziani.',
     },
   },
   {
@@ -424,10 +413,10 @@ export const experience: Experience[] = [
     company: 'Neosoltec',
     period: 'Agosto 2023 — Enero 2024',
     description: {
-      es: 'Desarrollo de herramientas automatizadas de extracción de datos con Python y Selenium. Análisis de datos y generación de reportes.',
-      en: 'Development of automated data extraction tools with Python and Selenium. Data analysis and report generation.',
-      pt: 'Desenvolvimento de ferramentas automatizadas de extração de dados com Python e Selenium. Análise de dados e geração de relatórios.',
-      it: 'Sviluppo di strumenti automatizzati di estrazione dati con Python e Selenium. Analisi dei dati e generazione di report.',
+      es: 'Desarrollo de herramientas automatizadas de extracción de datos con Python y Selenium. Análisis de datos y generación de reportes automáticos. Extracción de 10,000+ registros diarios.',
+      en: 'Development of automated data extraction tools with Python and Selenium. Data analysis and automatic report generation. Extraction of 10,000+ daily records.',
+      pt: 'Desenvolvimento de ferramentas automatizadas de extração de dados com Python e Selenium. Análise de dados e geração automática de relatórios. Extração de 10.000+ registros diários.',
+      it: 'Sviluppo di strumenti automatizzati di estrazione dati con Python e Selenium. Analisi dei dati e generazione automatica di report. Estrazione di 10.000+ record giornalieri.',
     },
   },
   {
@@ -439,6 +428,17 @@ export const experience: Experience[] = [
       en: 'Enterprise application development with .NET 8 and Entity Framework. Query optimization and legacy code refactoring.',
       pt: 'Desenvolvimento de aplicações empresariais com .NET 8 e Entity Framework. Otimização de consultas e refatoração de código legado.',
       it: 'Sviluppo di applicazioni enterprise con .NET 8 ed Entity Framework. Ottimizzazione delle query e refactoring del codice legacy.',
+    },
+  },
+  {
+    role: '.NET Developer',
+    company: 'Serviphar',
+    period: 'Febrero 2026 — Actualidad',
+    description: {
+      es: 'Desarrollé un cotizador de recetario magistral con .NET Core 10, construyendo APIs e integraciones para procesos críticos. Implementé seguridad a nivel de endpoints y generador de guías y facturas para SII.',
+      en: 'Developed a magistral formula quotation system with .NET Core 10, building APIs and integrations for critical processes. Implemented endpoint-level security and guide/invoice generator for SII.',
+      pt: 'Desenvolvi um sistema de cotação de fórmulas magistrais com .NET Core 10, construindo APIs e integrações para processos críticos. Implementei segurança em endpoints e gerador de guias/faturas para SII.',
+      it: 'Ho sviluppato un sistema di quotazione per formule magistrali con .NET Core 10, costruendo API e integrazioni per processi critici. Ho implementato sicurezza a livello di endpoint e generatore di guide/fatture per SII.',
     },
   },
 ];
