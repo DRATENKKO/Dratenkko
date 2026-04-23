@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'abab6.5s-chat',
+        model: 'MiniMax-Text-01',
         messages,
         max_tokens: 300,
         temperature: 0.8,
