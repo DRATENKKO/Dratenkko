@@ -25,161 +25,133 @@ export const Navbar = ({
 }: NavbarProps) => {
   const t = translations;
 
-  // PNG Flags - Imágenes descargadas en public/flags/
-  const Flags = {
-    es: (
-      <img
-        src={`${import.meta.env.BASE_URL}flags/chile.png`}
-        alt="Chile"
-        className="w-full h-full object-contain"
-      />
-    ),
-    en: (
-      <img
-        src={`${import.meta.env.BASE_URL}flags/usa.png`}
-        alt="USA"
-        className="w-full h-full object-contain"
-      />
-    ),
-    pt: (
-      <img
-        src={`${import.meta.env.BASE_URL}flags/brazil.png`}
-        alt="Brazil"
-        className="w-full h-full object-contain"
-      />
-    ),
-    it: (
-      <img
-        src={`${import.meta.env.BASE_URL}flags/italia.png`}
-        alt="Italy"
-        className="w-full h-full object-contain"
-      />
-    ),
+  // PNG Flags
+  const Flags: Record<string, React.ReactNode> = {
+    es: <img src={`${import.meta.env.BASE_URL}flags/chile.png`} alt="Chile" className="w-full h-full object-contain" />,
+    en: <img src={`${import.meta.env.BASE_URL}flags/usa.png`} alt="USA" className="w-full h-full object-contain" />,
+    pt: <img src={`${import.meta.env.BASE_URL}flags/brazil.png`} alt="Brazil" className="w-full h-full object-contain" />,
+    it: <img src={`${import.meta.env.BASE_URL}flags/italia.png`} alt="Italy" className="w-full h-full object-contain" />,
   };
 
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="fixed top-0 left-0 right-0 z-40 bg-white/90 dark:bg-deep-ocean/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-sm"
+      className="fixed top-0 left-0 right-0 z-40 bg-white/80 dark:bg-deep-ocean/95 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50 shadow-sm"
     >
-      <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
-        <div className="flex items-center justify-between gap-2">
-          {/* Logo - Responsive sizing */}
+      <div className="container mx-auto px-4 py-2.5 sm:py-3">
+        <div className="flex items-center justify-between gap-3">
+          
+          {/* Logo */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+            className="text-lg sm:text-xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent tracking-tight"
           >
             SVB
           </motion.div>
 
-          {/* Desktop Navigation - Hide on small screens */}
-          <div className="hidden lg:flex items-center gap-4 sm:gap-6 lg:gap-8">
-            <a href="#inicio" className="text-sm sm:text-base text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors py-2">
-              {t.nav.home[language as keyof typeof t.nav.home]}
-            </a>
-            <a href="#experiencia" className="text-sm sm:text-base text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors py-2">
-              {t.nav.experience[language as keyof typeof t.nav.experience]}
-            </a>
-            <a href="#habilidades" className="text-sm sm:text-base text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors py-2">
-              {t.nav.skills[language as keyof typeof t.nav.skills]}
-            </a>
-            <a href="#proyectos" className="text-sm sm:text-base text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors py-2">
-              {t.nav.projects[language as keyof typeof t.nav.projects]}
-            </a>
-            <a href="#certificados" className="text-sm sm:text-base text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors py-2">
-              {t.nav.certificates[language as keyof typeof t.nav.certificates]}
-            </a>
-            <a href="#contacto" className="text-sm sm:text-base text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors py-2">
-              {t.nav.contact[language as keyof typeof t.nav.contact]}
-            </a>
+          {/* Desktop Navigation */}
+          <div className="hidden xl:flex items-center gap-1">
+            {[
+              { href: '#inicio', label: t.nav.home },
+              { href: '#experiencia', label: t.nav.experience },
+              { href: '#habilidades', label: t.nav.skills },
+              { href: '#blog', label: { es: 'Blog', en: 'Blog', pt: 'Blog', it: 'Blog' } },
+              { href: '#proyectos', label: t.nav.projects },
+              { href: '#certificados', label: t.nav.certificates },
+              { href: '#contacto', label: t.nav.contact },
+            ].map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition-all"
+              >
+                {item.label[language as keyof typeof item.label]}
+              </a>
+            ))}
           </div>
 
-          {/* Controls - Better spacing */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Dark Mode Toggle - Touch-friendly size */}
+          {/* Controls - Right side */}
+          <div className="flex items-center gap-2">
+            
+            {/* Dark Mode Toggle - Clean & Compact */}
             <motion.button
               onClick={toggleDarkMode}
-              className="p-2.5 sm:p-3 rounded-xl bg-gradient-to-r from-gray-100 to-gray-200 dark:from-yellow-400/20 dark:to-yellow-600/20 hover:from-gray-200 hover:to-gray-300 dark:hover:from-yellow-400/30 dark:hover:to-yellow-600/30 border border-gray-300 dark:border-yellow-500/30 shadow-md hover:shadow-lg transition-all duration-300 min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer"
+              className="relative p-2 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-200"
               whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.6 }}
-              title={isDarkMode ? t.lightMode[language as keyof typeof t.lightMode] : t.darkMode[language as keyof typeof t.darkMode]}
-              aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+              title={isDarkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+              aria-label="Toggle dark mode"
             >
-              {isDarkMode ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} />}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={isDarkMode ? 'moon' : 'sun'}
+                  initial={{ rotate: -90, scale: 0, opacity: 0 }}
+                  animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                  exit={{ rotate: 90, scale: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {isDarkMode ? (
+                    <Moon size={18} className="text-purple-500" />
+                  ) : (
+                    <Sun size={18} className="text-orange-500" />
+                  )}
+                </motion.div>
+              </AnimatePresence>
             </motion.button>
 
-            {/* Language Selector - Responsive dropdown */}
-            <motion.div
-              className="relative"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.7 }}
-            >
+            {/* Language Selector */}
+            <motion.div className="relative" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }}>
               <button
                 onClick={() => setIsLanguageMenuOpen(!isLanguageMenuOpen)}
-                className="flex items-center gap-2 px-2 py-2 sm:px-3 sm:py-2.5 rounded-xl bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 hover:from-blue-100 hover:to-blue-200 dark:hover:from-blue-900/50 dark:hover:to-blue-800/50 border-2 border-blue-300 dark:border-blue-700 shadow-md hover:shadow-xl transition-all duration-300 min-h-[44px] cursor-pointer"
-                title={t.changeLanguage[language as keyof typeof t.changeLanguage]}
-                aria-label="Change language"
-                aria-expanded={isLanguageMenuOpen}
-                aria-haspopup="listbox"
+                className="flex items-center gap-1.5 px-2.5 py-2 rounded-xl bg-blue-50 dark:bg-blue-900/40 hover:bg-blue-100 dark:hover:bg-blue-900/60 border border-blue-200 dark:border-blue-700/50 shadow-sm hover:shadow-md transition-all duration-200"
+                aria-label="Cambiar idioma"
               >
-                <Globe size={18} className="text-blue-600 dark:text-blue-400" />
-                <div className="w-10 h-7 sm:w-12 sm:h-8 flex items-center justify-center overflow-hidden rounded-lg shadow-md bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
-                  {Flags[language as keyof typeof Flags]}
+                <Globe size={16} className="text-blue-600 dark:text-blue-400" />
+                <div className="w-8 h-5 sm:w-10 sm:h-6 flex items-center justify-center overflow-hidden rounded-md shadow inner-shadow-sm">
+                  {Flags[language]}
                 </div>
-                <svg className="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                <svg className="w-3 h-3 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
+
               <AnimatePresence>
                 {isLanguageMenuOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    initial={{ opacity: 0, y: 8, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    role="listbox"
-                    aria-label="Select language"
-                    className="absolute right-0 mt-2 sm:mt-3 w-64 sm:w-72 bg-white dark:bg-deep-ocean rounded-2xl shadow-2xl border-2 border-blue-200 dark:border-blue-800 overflow-hidden z-50"
+                    exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 mt-2 w-56 sm:w-64 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden z-50"
                   >
-                    <div className="p-2 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 border-b border-blue-200 dark:border-blue-800">
-                      <p className="text-xs sm:text-sm font-semibold text-blue-900 dark:text-blue-100 px-2 py-1 sm:py-1.5">Seleccionar idioma</p>
+                    <div className="px-4 py-3 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30 border-b border-gray-200 dark:border-gray-700">
+                      <p className="text-sm font-bold text-gray-900 dark:text-white">Seleccionar idioma</p>
                     </div>
                     {languageOptions.map((option) => (
                       <button
                         key={option.code}
-                        onClick={() => toggleLanguage(option.code)}
-                        role="option"
-                        aria-selected={language === option.code}
-                        className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 text-left flex items-center gap-2 sm:gap-3 transition-all duration-200 border-b last:border-b-0 border-gray-200 dark:border-gray-700 ${
+                        onClick={() => {
+                          toggleLanguage(option.code);
+                          setIsLanguageMenuOpen(false);
+                        }}
+                        className={`w-full px-4 py-3 text-left flex items-center gap-3 transition-colors ${
                           language === option.code
-                            ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg'
-                            : 'text-gray-900 dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-blue-900/30'
+                            ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white'
+                            : 'text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800'
                         }`}
                       >
-                        <div className={`w-8 h-6 sm:w-10 sm:h-7 flex items-center justify-center overflow-hidden rounded-lg shadow-sm flex-shrink-0 ${
-                          language === option.code ? 'bg-white/20' : 'bg-white dark:bg-gray-700'
+                        <div className={`w-8 h-5 flex items-center justify-center overflow-hidden rounded-md ${
+                          language === option.code ? 'bg-white/20' : 'bg-gray-100 dark:bg-gray-700'
                         }`}>
-                          {Flags[option.code as keyof typeof Flags]}
+                          {Flags[option.code]}
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <p className={`font-semibold text-xs sm:text-sm truncate ${language === option.code ? 'text-white' : 'text-gray-900 dark:text-gray-100'}`}>
-                            {option.name}
-                          </p>
-                          <p className={`text-[10px] sm:text-xs truncate ${language === option.code ? 'text-white/80' : 'text-gray-500 dark:text-gray-400'}`}>
-                            {language === 'es' && option.code === 'es' ? 'Actual' :
-                             language === 'en' && option.code === 'en' ? 'Current' :
-                             language === 'pt' && option.code === 'pt' ? 'Atual' :
-                             language === 'it' && option.code === 'it' ? 'Attuale' :
-                             language === 'es' ? 'Cambiar' : language === 'en' ? 'Change' : language === 'pt' ? 'Mudar' : 'Cambia'}
-                          </p>
+                        <div className="flex-1">
+                          <p className="font-semibold text-sm">{option.name}</p>
                         </div>
                         {language === option.code && (
-                          <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                           </svg>
                         )}
@@ -189,47 +161,50 @@ export const Navbar = ({
                 )}
               </AnimatePresence>
             </motion.div>
-          </div>
 
-          {/* Mobile Menu Button - Larger touch target */}
-          <motion.button
-            className="lg:hidden p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-deep-lighter transition-colors min-w-[48px] min-h-[48px] flex items-center justify-center"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Toggle menu"
-            aria-expanded={isMenuOpen}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </motion.button>
+            {/* Mobile Menu Button */}
+            <motion.button
+              className="xl:hidden p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Menu"
+            >
+              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </motion.button>
+          </div>
         </div>
 
-        {/* Mobile Menu - Better spacing */}
+        {/* Mobile Menu */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden py-4 space-y-1"
+              transition={{ duration: 0.2 }}
+              className="xl:hidden py-3 mt-2 border-t border-gray-200 dark:border-gray-700"
             >
-              <a href="#inicio" className="block px-4 py-3 rounded-lg text-base sm:text-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-deep-lighter transition-colors min-h-[48px] flex items-center" onClick={() => setIsMenuOpen(false)}>
-                {t.nav.home[language as keyof typeof t.nav.home]}
-              </a>
-              <a href="#experiencia" className="block px-4 py-3 rounded-lg text-base sm:text-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-deep-lighter transition-colors min-h-[48px] flex items-center" onClick={() => setIsMenuOpen(false)}>
-                {t.nav.experience[language as keyof typeof t.nav.experience]}
-              </a>
-              <a href="#habilidades" className="block px-4 py-3 rounded-lg text-base sm:text-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-deep-lighter transition-colors min-h-[48px] flex items-center" onClick={() => setIsMenuOpen(false)}>
-                {t.nav.skills[language as keyof typeof t.nav.skills]}
-              </a>
-              <a href="#proyectos" className="block px-4 py-3 rounded-lg text-base sm:text-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-deep-lighter transition-colors min-h-[48px] flex items-center" onClick={() => setIsMenuOpen(false)}>
-                {t.nav.projects[language as keyof typeof t.nav.projects]}
-              </a>
-              <a href="#certificados" className="block px-4 py-3 rounded-lg text-base sm:text-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-deep-lighter transition-colors min-h-[48px] flex items-center" onClick={() => setIsMenuOpen(false)}>
-                {t.nav.certificates[language as keyof typeof t.nav.certificates]}
-              </a>
-              <a href="#contacto" className="block px-4 py-3 rounded-lg text-base sm:text-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-deep-lighter transition-colors min-h-[48px] flex items-center" onClick={() => setIsMenuOpen(false)}>
-                {t.nav.contact[language as keyof typeof t.nav.contact]}
-              </a>
+              {[
+                { href: '#inicio', label: t.nav.home },
+                { href: '#experiencia', label: t.nav.experience },
+                { href: '#habilidades', label: t.nav.skills },
+                { href: '#blog', label: { es: 'Blog', en: 'Blog', pt: 'Blog', it: 'Blog' } },
+                { href: '#proyectos', label: t.nav.projects },
+                { href: '#certificados', label: t.nav.certificates },
+                { href: '#contacto', label: t.nav.contact },
+              ].map((item, i) => (
+                <motion.a
+                  key={item.href}
+                  href={item.href}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl my-0.5 font-medium"
+                >
+                  {item.label[language as keyof typeof item.label]}
+                </motion.a>
+              ))}
             </motion.div>
           )}
         </AnimatePresence>

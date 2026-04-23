@@ -506,6 +506,26 @@ export const translations = {
     issuer: { es: 'Emisor', en: 'Issuer', pt: 'Emissor', it: 'Emittente' },
     date: { es: 'Fecha', en: 'Date', pt: 'Data', it: 'Data' },
   },
+  testimonials: {
+    title: { es: 'Lo que dicen de mí', en: 'What people say about me', pt: 'O que dizem de mim', it: 'Cosa dicono di me' },
+    subtitle: {
+      es: 'Comentarios de colegas y clientes con quienes he trabajado',
+      en: 'Comments from colleagues and clients I have worked with',
+      pt: 'Comentários de colegas e clientes com quem trabalhei',
+      it: 'Commenti da colleghi e clienti con cui ho lavorato'
+    },
+  },
+  blog: {
+    title: { es: 'Artículos & Tutoriales', en: 'Articles & Tutorials', pt: 'Artigos & Tutoriais', it: 'Articoli & Tutoriali' },
+    subtitle: {
+      es: 'Comparto conocimiento sobre desarrollo de software, arquitectura y mejores prácticas',
+      en: 'I share knowledge about software development, architecture and best practices',
+      pt: 'Compartilho conhecimento sobre desenvolvimento de software, arquitetura e melhores práticas',
+      it: 'Condivido conoscenza su sviluppo software, architettura e best practice'
+    },
+    readMore: { es: 'Leer más', en: 'Read more', pt: 'Ler mais', it: 'Leggi ancora' },
+    viewAll: { es: 'Ver Todos los Artículos', en: 'View All Articles', pt: 'Ver Todos os Artigos', it: 'Vedi Tutti gli Articoli' },
+  },
   projects: {
     title: { es: 'Proyectos Destacados', en: 'Featured Projects', pt: 'Projetos em Destaque', it: 'Progetti in Evidenza' },
     subtitle: {
