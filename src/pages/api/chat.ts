@@ -13,45 +13,22 @@ INFORMACIÓN SOBRE SEBASTIÁN:
 - GitHub: github.com/Dratenkko
 
 EXPERIENCIA LABORAL:
-1. SERVIPHAR (Feb 2026 - Actual): Desarrollador .NET - Cotizador de recetario magistral con .NET Core 10, APIs, seguridad de endpoints, generador de guías/facturas SII
-2. I-GO (Feb 2024 - Abr 2024): Desarrollador .NET - CRUD con arquitectura limpia, .NET 8, Docker
-3. NEOSOLTEC (Ago 2023 - Ene 2024): Desarrollador/Webscraper - Python + Selenium, PL/SQL, automatización de extracción de datos
-4. PERMIFY (Nov 2022 - Ene 2023): Desarrollador Full Stack - Django, sitio web para personas mayores
+1. SERVIPHAR (Feb 2026 - Actual): Desarrollador .NET
+2. I-GO (Feb 2024 - Abr 2024): Desarrollador .NET
+3. NEOSOLTEC (Ago 2023 - Ene 2024): Desarrollador/Webscraper
+4. PERMIFY (Nov 2022 - Ene 2023): Desarrollador Full Stack
 
-EDUCACIÓN:
-- Analista Programador Computacional - Duoc UC (Jul 2023, con dos votos de Distinción)
+EDUCACIÓN: Analista Programador Computacional - Duoc UC (Jul 2023)
 
-SKILLS:
-- Lenguajes: Python, C#/.NET, Java, SQL, TypeScript, Dart
-- Frameworks: Django, Flutter, Angular, Ionic, .NET Core, React
-- Herramientas: Docker, Selenium, Git, PostgreSQL, MongoDB
+SKILLS: Python, C#/.NET, Django, Flutter, Angular, Docker, Selenium, SQL
 
-PROYECTOS:
-- ArtMind: Plataforma de terapia de arte (Django)
-- Sparedrive: E-commerce de repuestos (Django + JS)
-- Scrappers: Automatización de scraping (Python + Selenium)
-- PetOut: App de gestión de mascotas (Flutter)
-- Prac: Comunicación LoRa (Flutter + IoT)
+PROYECTOS: ArtMind, Sparedrive, Scrappers, PetOut, Prac
 
-REGLAS IMPORTANTES:
-1. SOLO responde preguntas sobre Sebastián, su experiencia, skills, proyectos o portafolio
-2. NO des código fuente bajo ninguna circunstancia
-3. NO ayudes con tareas de programación, debugging, o escribir código
-4. Si alguien pide código, responde: "Lo siento, no puedo ayudarte con código. ¿Hay algo más que quieras saber sobre Sebastián?"
-5. Responde en el idioma del usuario (español/inglés)
-6. Sé amable, profesional y conciso
-7. Para contacto, menciona WhatsApp: +569 36396900`;
-
-const BLOCKED_PATTERNS = [
-  'codigo', 'código', 'source code', 'import ', 'function ', 'class ', 'const ', 'let ', 'var ',
-  'def ', 'python', 'javascript', 'typescript', 'c#', '.net', 'write code', 'help me code',
-  'dame el codigo', 'show me code', 'how to code', 'create a', 'build a', 'implement',
-];
-
-function isCodeRequest(text: string): boolean {
-  const lower = text.toLowerCase();
-  return BLOCKED_PATTERNS.some(pattern => lower.includes(pattern));
-}
+REGLAS:
+1. Solo responde sobre Sebastián
+2. No des código fuente
+3. Si piden código, rechaza amablemente
+4. Responde en español o inglés según el usuario`;
 
 export async function POST(request: NextRequest) {
   try {
@@ -60,12 +37,6 @@ export async function POST(request: NextRequest) {
 
     if (!message || typeof message !== 'string') {
       return Response.json({ error: 'Message is required' }, { status: 400 });
-    }
-
-    if (isCodeRequest(message)) {
-      return Response.json({
-        response: "Lo siento, no puedo ayudarte con código. ¿Hay algo más que quieras saber sobre Sebastián o su trabajo?"
-      });
     }
 
     const messages: Array<{role: string, content: string}> = [
@@ -82,7 +53,7 @@ export async function POST(request: NextRequest) {
 
     messages.push({ role: 'user', content: message });
 
-    // Try MiniMax M2.7 model
+    // MiniMax M2.7 API call
     const response = await fetch('https://api.minimax.chat/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -92,23 +63,23 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         model: 'MiniMax-M2.7',
         messages,
-        max_tokens: 300,
-        temperature: 0.8,
+        max_tokens: 256,
+        temperature: 0.9,
+        top_p: 0.95,
       }),
     });
 
+    const data = await response.json();
+    console.log('MiniMax response:', JSON.stringify(data));
+
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('MiniMax error:', response.status, errorText);
       return Response.json({ 
         error: `API error: ${response.status}`,
-        details: errorText
+        details: data
       }, { status: 500 });
     }
 
-    const data = await response.json();
     const aiMessage = data.choices?.[0]?.message?.content || 'No pude generar una respuesta.';
-
     return Response.json({ response: aiMessage });
 
   } catch (error) {
