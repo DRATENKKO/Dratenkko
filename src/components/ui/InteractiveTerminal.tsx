@@ -194,12 +194,12 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
         animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 30, rotateX: 10 }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
-        className="fixed inset-x-4 bottom-24 sm:inset-auto sm:right-4 sm:w-[380px] lg:w-96 z-50 mx-auto sm:mx-0"
+        className="fixed bottom-24 sm:bottom-24 sm:right-4 w-[calc(100%-2rem)] sm:w-[380px] lg:w-96 z-50 mx-auto sm:mx-0"
         style={{ perspective: '1000px' }}
       >
         <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-3xl blur-lg opacity-30" />
         
-        <div className="relative bg-gray-900 rounded-2xl shadow-2xl border border-gray-700/50 overflow-hidden max-h-[85vh] flex flex-col">
+        <div className="relative bg-gray-900 rounded-2xl shadow-2xl border border-gray-700/50 overflow-hidden max-h-[80vh] sm:max-h-[85vh] flex flex-col">
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500" />
           
           <div className="flex items-center justify-between px-4 py-3 bg-gray-800/80 backdrop-blur-sm">
