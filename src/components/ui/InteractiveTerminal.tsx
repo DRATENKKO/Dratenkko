@@ -1,14 +1,42 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, X, ChevronRight, Sparkles, Code2, Send, Bot } from 'lucide-react';
+import { X, Sparkles, Code2, Send, Bot } from 'lucide-react';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
 }
 
+const SYSTEM_PROMPT = `Eres un asistente virtual para el portafolio de Sebastián Vargas Bermejo (svb.dev, GitHub: Dratenkko).
+
+INFORMACIÓN SOBRE SEBASTIÁN:
+- Nombre: Sebastián Alejandro Andrés Vargas Bermejo
+- Ubicación: Viña del Mar, Chile
+- Teléfono: +56 9 3639 6900
+- Email: sebavarber@proton.me
+- LinkedIn: linkedin.com/in/svb404
+- GitHub: github.com/Dratenkko
+
+EXPERIENCIA LABORAL:
+1. SERVIPHAR (Feb 2026 - Actual): Desarrollador .NET
+2. I-GO (Feb 2024 - Abr 2024): Desarrollador .NET
+3. NEOSOLTEC (Ago 2023 - Ene 2024): Desarrollador/Webscraper
+4. PERMIFY (Nov 2022 - Ene 2023): Desarrollador Full Stack
+
+EDUCACIÓN: Analista Programador Computacional - Duoc UC (Jul 2023)
+
+SKILLS: Python, C#/.NET, Django, Flutter, Angular, Docker, Selenium, SQL
+
+PROYECTOS: ArtMind, Sparedrive, Scrappers, PetOut, Prac
+
+REGLAS:
+1. Solo responde sobre Sebastián
+2. No des código fuente
+3. Si piden código, rechaza amablemente
+4. Responde en español o inglés según el usuario`;
+
 const BLOCKED_PATTERNS = [
-  'codigo', 'codigo', 'source code', 'import ', 'function ', 'class ', 'const ', 'let ', 'var ',
+  'codigo', 'código', 'source code', 'import ', 'function ', 'class ', 'const ', 'let ', 'var ',
   'def ', 'python', 'javascript', 'typescript', 'c#', '.net', 'write code', 'help me code',
   'dame el codigo', 'show me code', 'how to code', 'create a', 'build a', 'implement',
 ];
@@ -17,12 +45,6 @@ function isCodeRequest(text: string): boolean {
   const lower = text.toLowerCase();
   return BLOCKED_PATTERNS.some(pattern => lower.includes(pattern));
 }
-
-const quickLinks = [
-  { label: 'GitHub', url: 'https://github.com/Dratenkko' },
-  { label: 'LinkedIn', url: 'https://linkedin.com/in/svb404' },
-  { label: 'WhatsApp', url: 'https://wa.me/56936396900' },
-];
 
 const WELCOME_ES = `⚡ ¡Hola! Soy el asistente de Sebastián.
 💡 Pregúntame sobre él, su experiencia, proyectos o habilidades.
@@ -37,6 +59,12 @@ const WELCOME_EN = `⚡ Hi! I'm Sebastián's assistant.
 const CODE_BLOCK_ES = "Lo siento, no puedo ayudarte con código. ¿Hay algo más que quieras saber sobre Sebastián o su trabajo?";
 
 const CODE_BLOCK_EN = "Sorry, I can't help with code. Is there something else you'd like to know about Sebastián or his work?";
+
+const quickLinks = [
+  { label: 'GitHub', url: 'https://github.com/Dratenkko' },
+  { label: 'LinkedIn', url: 'https://linkedin.com/in/svb404' },
+  { label: 'WhatsApp', url: 'https://wa.me/56936396900' },
+];
 
 interface InteractiveTerminalProps {
   language: string;
@@ -94,42 +122,53 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
     setError(null);
 
     try {
-      const response = await fetch('/api/chat', {
+      const response = await fetch('https://api.minimax.io/anthropic/v1/messages', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Authorization': 'Bearer sk-cp-xhetS3mRR0cGsJJXc2kM9gboQphiLqLFEHdTpO8UE7EV2PN-LgwEVUr3M6iBq3coD0y-HB8eC8-tqN5wVUH8maYwZYySsKSVPLPhei_m660q1xNLKKvQ9GQ',
+          'Content-Type': 'application/json',
+          'anthropic-version': '2023-06-01',
+        },
         body: JSON.stringify({
-          message: userMessage,
-          history: newMessages.slice(-10),
+          model: 'MiniMax-M2.7',
+          messages: [
+            ...newMessages.slice(-10).map(m => ({ role: m.role, content: [{ type: 'text', text: m.content }] })),
+          ],
+          max_tokens: 300,
+          system: SYSTEM_PROMPT,
+          temperature: 0.8,
         }),
       });
 
       const data = await response.json();
-      console.log('Chat response:', data);
 
-      if (data.error) {
-        const errorMsg = data.details?.error?.message || data.error;
-        setError(errorMsg);
-        setMessages(prev => [...prev, {
-          role: 'assistant',
-          content: language === 'es' 
-            ? `❌ Error: ${errorMsg}`
-            : `❌ Error: ${errorMsg}`
-        }]);
-      } else if (data.response) {
-        setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
-      } else {
-        setMessages(prev => [...prev, {
-          role: 'assistant',
-          content: 'No pude obtener respuesta.'
-        }]);
+      if (!response.ok) {
+        throw new Error(data.error?.message || `Error ${response.status}`);
       }
+
+      // Extract text from response
+      let aiMessage = '';
+      if (data.content && Array.isArray(data.content)) {
+        for (const block of data.content) {
+          if (block.type === 'text' && block.text) {
+            aiMessage += block.text;
+          }
+        }
+      }
+
+      if (!aiMessage) {
+        aiMessage = 'No pude generar una respuesta.';
+      }
+
+      setMessages(prev => [...prev, { role: 'assistant', content: aiMessage }]);
     } catch (err) {
-      setError('Network error');
+      const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
+      setError(errorMessage);
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: language === 'es'
-          ? '❌ No pude conectar con el servidor.'
-          : '❌ Could not connect to server.'
+        content: language === 'es' 
+          ? `❌ Error: ${errorMessage}`
+          : `❌ Error: ${errorMessage}`
       }]);
     } finally {
       setIsTyping(false);
@@ -233,7 +272,7 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={language === 'es' ? 'pregun`tame sobre Sebastián...' : 'ask me about Sebastián...'}
+                placeholder={language === 'es' ? 'pregúntame sobre Sebastián...' : 'ask me about Sebastián...'}
                 className="flex-1 bg-transparent text-white/90 font-mono text-sm outline-none placeholder-gray-600"
                 autoComplete="off"
                 disabled={isTyping}
