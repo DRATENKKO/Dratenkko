@@ -133,6 +133,7 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
           max_tokens: 300,
           system: SYSTEM_PROMPT,
           temperature: 0.8,
+          thinking: { type: 'disabled' },
         }),
       });
 
@@ -142,17 +143,23 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
         throw new Error(data.error?.message || `Error ${response.status}`);
       }
 
-      // Extract text from response
+      // Extract text from response - handle multiple content blocks
       let aiMessage = '';
+      console.log('API Response:', JSON.stringify(data).substring(0, 500));
+      
       if (data.content && Array.isArray(data.content)) {
         for (const block of data.content) {
+          console.log('Block type:', block.type);
           if (block.type === 'text' && block.text) {
             aiMessage += block.text;
-          } else if (block.type === 'thinking' && block.thinking) {
-            console.log('AI thinking:', block.thinking.substring(0, 200));
           }
         }
+      } else if (data.content?.text) {
+        // Some responses might have content as object with text directly
+        aiMessage = data.content.text;
       }
+      
+      console.log('Extracted AI message:', aiMessage.substring(0, 200));
       
       // If still no message, check for error in response
       if (!aiMessage && data.error) {
