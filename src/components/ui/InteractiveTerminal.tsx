@@ -130,7 +130,7 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
           messages: [
             ...newMessages.slice(-10).map(m => ({ role: m.role, content: [{ type: 'text', text: m.content }] })),
           ],
-          max_tokens: 300,
+          max_tokens: 1000,
           system: SYSTEM_PROMPT,
           temperature: 0.8,
           thinking: { type: 'disabled' },
