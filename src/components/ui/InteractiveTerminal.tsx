@@ -155,8 +155,14 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
         aiMessage = data.content;
       }
 
-      // Strip thinking blocks: remove content between ━ and ━ markers
-      aiMessage = aiMessage.replace(/━━━━━━━━━━━━━━━━━━[\s\S]*?━━━━━━━━━━━━━━━━━━/g, '').trim();
+      // Strip thinking blocks: remove content between ━ markers, думаю, думаю, or<think> tags
+      aiMessage = aiMessage
+        .replace(/━━━━━━━━━━━━━━━━━━[\s\S]*?━━━━━━━━━━━━━━━━━━/g, '')
+        .replace(/<думаю[\s\S]*?<\/думаю>/gi, '')
+        .replace(/<thinking>[\s\S]*?<\/thinking>/gi, '')
+        .replace(/<think>[\s\S]*?]/gi, '')
+        .replace(/\n\n+/g, '\n')
+        .trim();
 
       if (!aiMessage && data.error) {
         throw new Error(data.error.message || 'API error');
