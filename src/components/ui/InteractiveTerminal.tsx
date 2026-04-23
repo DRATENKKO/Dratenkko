@@ -118,6 +118,12 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
     setError(null);
 
     try {
+      // Build messages in MiniMax format
+      const msgs = newMessages.slice(-10).map(m => ({
+        role: m.role,
+        content: m.content
+      }));
+      
       const response = await fetch('https://api.minimax.io/anthropic/v1/messages', {
         method: 'POST',
         headers: {
@@ -127,13 +133,10 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
         },
         body: JSON.stringify({
           model: 'MiniMax-M2.7',
-          messages: [
-            ...newMessages.slice(-10).map(m => ({ role: m.role, content: [{ type: 'text', text: m.content }] })),
-          ],
+          messages: msgs,
           max_tokens: 1000,
           system: SYSTEM_PROMPT,
           temperature: 0.8,
-          thinking: { type: 'disabled' },
         }),
       });
 
