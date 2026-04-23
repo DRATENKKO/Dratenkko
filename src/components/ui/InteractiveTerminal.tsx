@@ -58,7 +58,7 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
         role: 'assistant',
         content: language === 'es' 
           ? '⚡ ¡Hola! Soy el asistente de Sebastián.\n💡 Pregúntame sobre él, su experiencia, proyectos o habilidades.\n\n❌ No puedo ayudarte con código, pero puedo contarte sobre el trabajo de Sebastián.'
-          : '⚡ Hi! I\'m Sebastián\'s assistant.\n💡 Ask me about him, his experience, projects or skills.\n\n❌ I can\'t help with code, but I can tell you about Sebastián\'s work.',
+          : '⚡ Hi! I'm Sebastián's assistant.\n💡 Ask me about him, his experience, projects or skills.\n\n❌ I can't help with code, but I can tell you about Sebastián's work.',
       }]);
     }
   }, [isOpen, language, showWelcome]);
@@ -71,8 +71,8 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
       setMessages(prev => [...prev, 
         { role: 'user', content: text },
         { role: 'assistant', content: language === 'es' 
-          ? 'Lo siento, no puedo ayudarte con código. ¿Hay algo más que quieras saber sobre Sebastián o su trabajo?'
-          : 'Sorry, I can\'t help with code. Is there something else you'd like to know about Sebastián or his work?' }
+          ? "Lo siento, no puedo ayudarte con código. ¿Hay algo más que quieras saber sobre Sebastián o su trabajo?"
+          : "Sorry, I can't help with code. Is there something else you'd like to know about Sebastián or his work?" }
       ]);
       return;
     }
