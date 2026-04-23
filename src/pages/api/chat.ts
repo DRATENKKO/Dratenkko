@@ -44,7 +44,7 @@ REGLAS IMPORTANTES:
 7. Para contacto, menciona WhatsApp: +569 36396900`;
 
 const BLOCKED_PATTERNS = [
-  'codigo', 'código', 'source code', '源代码', 'import ', 'function ', 'class ', 'const ', 'let ', 'var ',
+  'codigo', 'código', 'source code', 'import ', 'function ', 'class ', 'const ', 'let ', 'var ',
   'def ', 'python', 'javascript', 'typescript', 'c#', '.net', 'write code', 'help me code',
   'dame el codigo', 'show me code', 'how to code', 'create a', 'build a', 'implement',
 ];
@@ -56,25 +56,35 @@ function isCodeRequest(text: string): boolean {
 
 export async function POST(request: NextRequest) {
   try {
-    const { message, history } = await request.json();
+    const body = await request.json();
+    const { message, history } = body;
 
     if (!message || typeof message !== 'string') {
       return Response.json({ error: 'Message is required' }, { status: 400 });
     }
 
-    // Check for code requests
     if (isCodeRequest(message)) {
       return Response.json({
         response: "Lo siento, no puedo ayudarte con código. ¿Hay algo más que quieras saber sobre Sebastián o su trabajo?"
       });
     }
 
-    // Build messages array
-    const messages = [
+    // Build messages array - only user messages for history
+    const messages: Array<{role: string, content: string}> = [
       { role: 'system', content: SYSTEM_PROMPT },
-      ...(history || []),
-      { role: 'user', content: message }
     ];
+
+    // Add history messages (filter out any malformed ones)
+    if (history && Array.isArray(history)) {
+      const validHistory = history.slice(-10).filter(
+        (m: {role?: string, content?: string}) => 
+          m && m.role && m.content && ['user', 'assistant'].includes(m.role)
+      );
+      messages.push(...validHistory);
+    }
+
+    // Add current message
+    messages.push({ role: 'user', content: message });
 
     const response = await fetch(MINIMAX_URL, {
       method: 'POST',
@@ -83,26 +93,29 @@ export async function POST(request: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'MiniMax-Text-01',
+        model: 'abab6.5s-chat',
         messages,
-        max_tokens: 500,
-        temperature: 0.7,
+        max_tokens: 300,
+        temperature: 0.8,
       }),
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      const errorData = await response.text();
-      console.error('MiniMax API error:', response.status, errorData);
-      return Response.json({ error: 'AI service unavailable' }, { status: 500 });
+      console.error('MiniMax API error:', response.status, JSON.stringify(data));
+      return Response.json({ 
+        error: 'API error',
+        details: data.error?.message || 'Unknown error'
+      }, { status: 500 });
     }
 
-    const data = await response.json();
     const aiMessage = data.choices?.[0]?.message?.content || 'No pude generar una respuesta.';
 
     return Response.json({ response: aiMessage });
 
   } catch (error) {
     console.error('Chat API error:', error);
-    return Response.json({ error: 'Server error' }, { status: 500 });
+    return Response.json({ error: 'Server error', message: String(error) }, { status: 500 });
   }
 }
