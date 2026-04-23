@@ -35,7 +35,7 @@ SKILLS: Python, C#/.NET, Django, Flutter, Angular, Docker, Selenium, SQL
 
 PROYECTOS: ArtMind, Sparedrive, Scrappers, PetOut, Prac
 
-Si preguntan algo que no sea sobre Sebastian, responde: "Solo puedo dar informacion sobre Sebastian Vargas."
+Si preguntan algo que no sea sobre Sebastian, responde: "Solo puedo dar informacion sobre Sebastian Vargas."`;
 
 const BLOCKED_PATTERNS = [
   'codigo', 'código', 'source code', 'import ', 'function ', 'class ', 'const ', 'let ', 'var ',
@@ -48,7 +48,7 @@ function isCodeRequest(text: string): boolean {
   return BLOCKED_PATTERNS.some(pattern => lower.includes(pattern));
 }
 
-const WELCOME_ES = AI Hola! Soy el asistente de Sebastian. Preguntame sobre el, su experiencia, proyectos o habilidades. No puedo ayudar con codigo.`;
+const WELCOME_ES = `[AI] Hola! Soy el asistente de Sebastian. Preguntame sobre el, su experiencia, proyectos o habilidades. No puedo ayudar con codigo.`;
 
 const WELCOME_EN = `[AI] Hi! I'm Sebastian's assistant. Ask me about him, his experience, projects or skills. I can't help with code.`;
 
