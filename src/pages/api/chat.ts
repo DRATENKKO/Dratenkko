@@ -27,7 +27,7 @@ PROYECTOS: ArtMind, Sparedrive, Scrappers, PetOut, Prac
 REGLAS:
 1. Solo responde sobre Sebastián
 2. No des código fuente
-3. Si piden código, rechaza amablemente
+3. Si piden código,拒绝 amablemente
 4. Responde en español o inglés según el usuario`;
 
 export async function POST(request: NextRequest) {
@@ -39,47 +39,70 @@ export async function POST(request: NextRequest) {
       return Response.json({ error: 'Message is required' }, { status: 400 });
     }
 
-    const messages: Array<{role: string, content: string}> = [
-      { role: 'system', content: SYSTEM_PROMPT },
-    ];
+    // Build messages in Anthropic format
+    const anthropicMessages: Array<{role: string, content: Array<{type: string, text: string}>}> = [];
 
+    // Add history
     if (history && Array.isArray(history)) {
       const validHistory = history.slice(-10).filter(
         (m: {role?: string, content?: string}) => 
           m && m.role && m.content && ['user', 'assistant'].includes(m.role)
       );
-      messages.push(...validHistory);
+      for (const m of validHistory) {
+        anthropicMessages.push({
+          role: m.role,
+          content: [{ type: 'text', text: m.content }]
+        });
+      }
     }
 
-    messages.push({ role: 'user', content: message });
+    // Add current message
+    anthropicMessages.push({
+      role: 'user',
+      content: [{ type: 'text', text: message }]
+    });
 
-    // MiniMax M2.7 API call
-    const response = await fetch('https://api.minimax.chat/v1/chat/completions', {
+    const response = await fetch('https://api.minimax.io/anthropic/v1/messages', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${MINIMAX_API_KEY}`,
         'Content-Type': 'application/json',
+        'anthropic-version': '2023-06-01',
+        'x-api-key': MINIMAX_API_KEY,
       },
       body: JSON.stringify({
         model: 'MiniMax-M2.7',
-        messages,
-        max_tokens: 256,
-        temperature: 0.9,
-        top_p: 0.95,
+        messages: anthropicMessages,
+        max_tokens: 300,
+        system: SYSTEM_PROMPT,
+        temperature: 0.8,
       }),
     });
 
     const data = await response.json();
-    console.log('MiniMax response:', JSON.stringify(data));
 
     if (!response.ok) {
+      console.error('MiniMax error:', response.status, JSON.stringify(data));
       return Response.json({ 
         error: `API error: ${response.status}`,
         details: data
       }, { status: 500 });
     }
 
-    const aiMessage = data.choices?.[0]?.message?.content || 'No pude generar una respuesta.';
+    // Extract text from response (Anthropic format)
+    let aiMessage = '';
+    if (data.content && Array.isArray(data.content)) {
+      for (const block of data.content) {
+        if (block.type === 'text') {
+          aiMessage += block.text;
+        }
+      }
+    }
+
+    if (!aiMessage) {
+      aiMessage = 'No pude generar una respuesta.';
+    }
+
     return Response.json({ response: aiMessage });
 
   } catch (error) {
