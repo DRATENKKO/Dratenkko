@@ -37,6 +37,8 @@ PROYECTOS: ArtMind, Sparedrive, Scrappers, PetOut, Prac
 
 Si preguntan algo que no sea sobre Sebastian, responde: "Solo puedo dar informacion sobre Sebastian Vargas."`;
 
+const API_KEY = import.meta.env.VITE_MINIMAX_API_KEY || '';
+
 const BLOCKED_PATTERNS = [
   'codigo', 'código', 'source code', 'import ', 'function ', 'class ', 'const ', 'let ', 'var ',
   'def ', 'python', 'javascript', 'typescript', 'c#', '.net', 'write code', 'help me code',
@@ -128,7 +130,7 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
       const response = await fetch('https://api.minimax.io/v1/chat/completions', {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer sk-cp-xhetS3mRR0cGsJJXc2kM9gboQphiLqLFEHdTpO8UE7EV2PN-LgwEVUr3M6iBq3coD0y-HB8eC8-tqN5wVUH8maYwZYySsKSVPLPhei_m660q1xNLKKvQ9GQ',
+          'Authorization': `Bearer ${API_KEY}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
