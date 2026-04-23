@@ -27,8 +27,34 @@ PROYECTOS: ArtMind, Sparedrive, Scrappers, PetOut, Prac
 REGLAS:
 1. Solo responde sobre Sebastián
 2. No des código fuente
-3. Si piden código,拒绝 amablemente
+3. Si piden código, rechaza amablemente
 4. Responde en español o inglés según el usuario`;
+
+interface AnthropicMessage {
+  role: 'user' | 'assistant';
+  content: Array<{type: 'text'; text: string}>;
+}
+
+interface AnthropicResponse {
+  id?: string;
+  type?: string;
+  role?: string;
+  model?: string;
+  content?: Array<{type: 'text' | 'thinking'; text?: string; thinking?: string}>;
+  usage?: {
+    input_tokens: number;
+    output_tokens: number;
+    cache_creation_input_tokens?: number;
+    cache_read_input_tokens?: number;
+  };
+  stop_reason?: string;
+  base_resp?: {status_code: number; status_msg: string};
+  error?: {
+    type: string;
+    message: string;
+    http_code: string;
+  };
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -39,18 +65,17 @@ export async function POST(request: NextRequest) {
       return Response.json({ error: 'Message is required' }, { status: 400 });
     }
 
-    // Build messages in Anthropic format
-    const anthropicMessages: Array<{role: string, content: Array<{type: string, text: string}>}> = [];
+    const anthropicMessages: AnthropicMessage[] = [];
 
     // Add history
     if (history && Array.isArray(history)) {
       const validHistory = history.slice(-10).filter(
-        (m: {role?: string, content?: string}) => 
+        (m: {role?: string; content?: string}) => 
           m && m.role && m.content && ['user', 'assistant'].includes(m.role)
       );
       for (const m of validHistory) {
         anthropicMessages.push({
-          role: m.role,
+          role: m.role as 'user' | 'assistant',
           content: [{ type: 'text', text: m.content }]
         });
       }
@@ -68,7 +93,6 @@ export async function POST(request: NextRequest) {
         'Authorization': `Bearer ${MINIMAX_API_KEY}`,
         'Content-Type': 'application/json',
         'anthropic-version': '2023-06-01',
-        'x-api-key': MINIMAX_API_KEY,
       },
       body: JSON.stringify({
         model: 'MiniMax-M2.7',
@@ -79,21 +103,30 @@ export async function POST(request: NextRequest) {
       }),
     });
 
-    const data = await response.json();
+    const data: AnthropicResponse = await response.json();
 
-    if (!response.ok) {
-      console.error('MiniMax error:', response.status, JSON.stringify(data));
+    // Check for error in response body (MiniMax returns {type: "error", error: {...}})
+    if (data.type === 'error' && data.error) {
+      console.error('MiniMax API error:', data.error);
       return Response.json({ 
-        error: `API error: ${response.status}`,
-        details: data
-      }, { status: 500 });
+        error: data.error.message || 'API error',
+        details: data.error
+      }, { status: 401 });
     }
 
-    // Extract text from response (Anthropic format)
+    if (!response.ok) {
+      console.error('MiniMax HTTP error:', response.status, JSON.stringify(data));
+      return Response.json({ 
+        error: `HTTP error: ${response.status}`,
+        details: data
+      }, { status: response.status });
+    }
+
+    // Extract text from response
     let aiMessage = '';
     if (data.content && Array.isArray(data.content)) {
       for (const block of data.content) {
-        if (block.type === 'text') {
+        if (block.type === 'text' && block.text) {
           aiMessage += block.text;
         }
       }
