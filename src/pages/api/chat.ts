@@ -1,7 +1,6 @@
 import type { NextRequest } from 'next/server';
 
 const MINIMAX_API_KEY = 'sk-cp-xhetS3mRR0cGsJJXc2kM9gboQphiLqLFEHdTpO8UE7EV2PN-LgwEVUr3M6iBq3coD0y-HB8eC8-tqN5wVUH8maYwZYySsKSVPLPhei_m660q1xNLKKvQ9GQ';
-const MINIMAX_URL = 'https://api.minimax.chat/v1/chat/completions';
 
 const SYSTEM_PROMPT = `Eres un asistente virtual para el portafolio de Sebastián Vargas Bermejo (svb.dev, GitHub: Dratenkko).
 
@@ -69,12 +68,10 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Build messages array - only user messages for history
     const messages: Array<{role: string, content: string}> = [
       { role: 'system', content: SYSTEM_PROMPT },
     ];
 
-    // Add history messages (filter out any malformed ones)
     if (history && Array.isArray(history)) {
       const validHistory = history.slice(-10).filter(
         (m: {role?: string, content?: string}) => 
@@ -83,39 +80,42 @@ export async function POST(request: NextRequest) {
       messages.push(...validHistory);
     }
 
-    // Add current message
     messages.push({ role: 'user', content: message });
 
-    const response = await fetch(MINIMAX_URL, {
+    // Try MiniMax M2.7 model
+    const response = await fetch('https://api.minimax.chat/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${MINIMAX_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'MiniMax-Text-01',
+        model: 'MiniMax-M2.7',
         messages,
         max_tokens: 300,
         temperature: 0.8,
       }),
     });
 
-    const data = await response.json();
-
     if (!response.ok) {
-      console.error('MiniMax API error:', response.status, JSON.stringify(data));
+      const errorText = await response.text();
+      console.error('MiniMax error:', response.status, errorText);
       return Response.json({ 
-        error: 'API error',
-        details: data.error?.message || 'Unknown error'
+        error: `API error: ${response.status}`,
+        details: errorText
       }, { status: 500 });
     }
 
+    const data = await response.json();
     const aiMessage = data.choices?.[0]?.message?.content || 'No pude generar una respuesta.';
 
     return Response.json({ response: aiMessage });
 
   } catch (error) {
-    console.error('Chat API error:', error);
-    return Response.json({ error: 'Server error', message: String(error) }, { status: 500 });
+    console.error('Server error:', error);
+    return Response.json({ 
+      error: 'Server error', 
+      message: error instanceof Error ? error.message : String(error)
+    }, { status: 500 });
   }
 }
