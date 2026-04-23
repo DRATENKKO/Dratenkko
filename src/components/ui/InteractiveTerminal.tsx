@@ -48,7 +48,7 @@ function isCodeRequest(text: string): boolean {
   return BLOCKED_PATTERNS.some(pattern => lower.includes(pattern));
 }
 
-const WELCOME_ES = `[AI] Hola! Soy el asistente de Sebastian. Preguntame sobre el, su experiencia, proyectos o habilidades. No puedo ayudar con codigo.`;
+const WELCOME_ES = AI Hola! Soy el asistente de Sebastian. Preguntame sobre el, su experiencia, proyectos o habilidades. No puedo ayudar con codigo.`;
 
 const WELCOME_EN = `[AI] Hi! I'm Sebastian's assistant. Ask me about him, his experience, projects or skills. I can't help with code.`;
 
@@ -161,6 +161,9 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
       
       // Force Spanish: remove any non-ASCII characters except common Spanish punctuation
       aiMessage = aiMessage.replace(/[^\x00-\x7F\náéíóúÁÉÍÓÚñÑüÜ¡!¿?.,;:\s]/g, '');
+      
+      // Remove URLs (MiniMax TTS URLs and other internal links)
+      aiMessage = aiMessage.replace(/https?:\/\/[^\s]+/gi, '').trim();
 
       if (!aiMessage && data.error) {
         throw new Error(data.error.message || 'API error');
