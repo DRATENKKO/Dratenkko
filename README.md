@@ -1,50 +1,59 @@
-# React + TypeScript + Vite
+# 👋 Hola, soy Sebastian Vargas B.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Full Stack Developer** desde Chile 🇨🇱 | Analista Programador
 
-Currently, two official plugins are available:
+Transformando ideas en proyectos digitales innovadores y funcionales con creatividad y eficiencia.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔧 Stack
 
-## Expanding the ESLint configuration
+`.NET Core` · `Python` · `Flutter` · `React` · `TypeScript` · `SQL Server` · `PostgreSQL`
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 💼 Experiencia
 
-- Configure the top-level `parserOptions` property like this:
+**Serviphar** — .NET Developer (Feb 2026 → Actual)
+- Cotizador de recetario magistral con .NET Core 10
+- APIs e integraciones para procesos críticos del negocio
+- Generador de guías y facturas para SII (procesamiento masivo)
+- Seguridad a nivel de endpoints
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+**I-GO** — .NET Developer (Feb 2024 → Abr 2024)
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+**NEOSOLTEC** — Desarrollador / Webscraper (Ago 2023 → Ene 2024)
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+**PERMIFY** — Full Stack Developer (Nov 2022 → Ene 2023)
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## 🛠️ Lo que hago
+
+- 📦 **APIs y backend** — .NET Core, Django, arquitecturas escalables
+- 🎨 **Frontend** — React, Flutter, interfaces modernas
+- 🤖 **Automation & AI** — Scripts, integraciones con LLMs, bots
+- 🦊 **Camoufox + Hermes** — Skill open source para navegación anti-detección
+
+## 🏆 Proyectos destacados
+
+- [Sparedrive](https://github.com/Dratenkko/sparedrive) — App de backups en la nube
+- [ArtMind](https://github.com/Dratenkko/artmind) — Generación de arte con IA
+- [Scrappers](https://github.com/Dratenkko/scrappers) — Web scrapers avanzados
+- [Hermes-camofox-browser-skill](https://github.com/DRATENKKO/Hermes-camofox-browser-Skill) — Skill para navegación anti-detección
+
+## 🤖 Portafolio con IA
+
+Este portafolio incluye un **asistente virtual**potenciado por MiniMax que responde preguntas sobre mi perfil, experiencia y proyectos. Pruébalo en la terminal interactiva.
+
+## 🎓 Educación
+
+**Analista Programador Computacional** — Duoc UC (Jul 2023)
+
+## 🌐 Idiomas
+
+- 🇬🇧 English — C2 Avanzado (TOEIC Bridge, EF SET C2)
+- 🇵🇹 Português — Intermedio-alto
+- 🇮🇹 Italiano — Intermedio
+
+## 📫 Contacto
+
+- 🌐 [sebavb.dev](https://sebavb.dev/)
+- 💼 [LinkedIn](https://www.linkedin.com/in/svb404/)
+- 🐙 [GitHub](https://github.com/Dratenkko)
+- 📧 sebavarber@proton.me
+- 📱 +56 9 3639 6900
