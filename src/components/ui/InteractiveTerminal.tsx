@@ -14,6 +14,8 @@ REGLAS ESTRICTAS:
 2. NO uses caracteres chinos, cirilicos, ni emojis raros. Solo español con puntos y comas normales.
 3. NUNCA inventes informacion. Solo dice lo que sabes de Sebastian.
 4. SOLO habla de Sebastian. No de otras personas.
+5. NUNCA muestres bloques de pensamiento, razonamiento, ni tags como <think>, <thinking>,<think>, etc.
+6. NUNCA escribas el proceso de razonamiento en tu respuesta. Solo da la respuesta final.
 
 SOBRE SEBASTIAN:
 - Nombre: Sebastian Alejandro Andres Vargas Bermejo
@@ -152,13 +154,25 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
       aiMessage = aiMessage
         .replace(/━━━━━━━━━━━━━━━━━━[\s\S]*?━━━━━━━━━━━━━━━━━━/g, '')
         .replace(/<думаю[\s\S]*?<\/думаю>/gi, '')
-        .replace(/<thinking>[\s\S]*?<\/thinking>/gi, '')
-        .replace(/<think>[\s\S]*?]/gi, '')
+        .replace(/<thinking[\s\S]*?<\/thinking>/gi, '')
+        .replace(/<think[\s\S]*?<\/think>/gi, '')
+        .replace(/<think>[\s\S]*?<\/think>/gi, '')
+        .replace(/<思[\s\S]*?<\/思>/gi, '')
+        .replace(/<thought[\s\S]*?<\/thought>/gi, '')
+        .replace(/<reflexion[\s\S]*?<\/reflexion>/gi, '')
+        .replace(/<reflexión[\s\S]*?<\/reflexión>/gi, '')
+        .replace(/<分析[\s\S]*?<\/分析>/gi, '')
+        .replace(/<思考[\s\S]*?<\/思考>/gi, '')
+        .replace(/<reasoning[\s\S]*?<\/reasoning>/gi, '')
+        .replace(/\\_thinking[\\S]*?\\_/gi, '')
+        .replace(/\*\*Reasoning\*\*[\s\S]*?\*\*Output\*\*/gi, '')
+        .replace(/<output>[\s\S]*?<\/output>/gi, '')
+        .replace(/<think>\s*[\s\S]*?:\s*/gi, '')
         .replace(/\n\n+/g, '\n')
         .trim();
       
       // Force Spanish: remove any non-ASCII characters except common Spanish punctuation
-      aiMessage = aiMessage.replace(/[^\x00-\x7F\náéíóúÁÉÍÓÚñÑüÜ¡!¿?.,;:\s]/g, '');
+      aiMessage = aiMessage.replace(/[^\x20-\x7E\náéíóúÁÉÍÓÚñÑüÜ¡!¿?.,;:\s]/g, '');
       
       // Remove URLs (MiniMax TTS URLs and other internal links)
       aiMessage = aiMessage.replace(/https?:\/\/[^\s]+/gi, '').trim();

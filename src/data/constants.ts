@@ -398,25 +398,14 @@ export const projects: Project[] = [
 
 export const experience: Experience[] = [
   {
-    role: 'Full Stack Developer',
-    company: 'Permify',
-    period: 'Noviembre 2022 — Enero 2023',
+    role: '.NET Developer',
+    company: 'Serviphar',
+    period: 'Febrero 2026 — Actualidad',
     description: {
-      es: 'Desarrollo de aplicaciones web completas con Django y React. Implementación de arquitecturas escalables y microservicios para plataformas de terapia y arte para adultos mayores.',
-      en: 'Full-stack web application development with Django and React. Implementation of scalable architectures and microservices for art therapy platforms for elderly adults.',
-      pt: 'Desenvolvimento de aplicações web full-stack com Django e React. Implementação de arquiteturas escaláveis e microsserviços para plataformas de arteterapia para idosos.',
-      it: 'Sviluppo di applicazioni web full-stack con Django e React. Implementazione di architetture scalabili e microservizi per piattaforme di arteterapia per anziani.',
-    },
-  },
-  {
-    role: 'Developer & Web Scraper Specialist',
-    company: 'Neosoltec',
-    period: 'Agosto 2023 — Enero 2024',
-    description: {
-      es: 'Desarrollo de herramientas automatizadas de extracción de datos con Python y Selenium. Análisis de datos y generación de reportes automáticos. Extracción de 10,000+ registros diarios.',
-      en: 'Development of automated data extraction tools with Python and Selenium. Data analysis and automatic report generation. Extraction of 10,000+ daily records.',
-      pt: 'Desenvolvimento de ferramentas automatizadas de extração de dados com Python e Selenium. Análise de dados e geração automática de relatórios. Extração de 10.000+ registros diários.',
-      it: 'Sviluppo di strumenti automatizzati di estrazione dati con Python e Selenium. Analisi dei dati e generazione automatica di report. Estrazione di 10.000+ record giornalieri.',
+      es: 'Desarrollé un cotizador de recetario magistral con .NET Core 10, construyendo APIs e integraciones para procesos críticos. Implementé seguridad a nivel de endpoints y generador de guías y facturas para SII.',
+      en: 'Developed a magistral formula quotation system with .NET Core 10, building APIs and integrations for critical processes. Implemented endpoint-level security and guide/invoice generator for SII.',
+      pt: 'Desenvolvi um sistema de cotação de fórmulas magistrais com .NET Core 10, construindo API e integrações para processos críticos. Implementei segurança em endpoints e gerador de guias/faturas para SII.',
+      it: 'Ho sviluppato un sistema di quotazione per formule magistrali con .NET Core 10, costruendo API e integrazioni per processi critici. Ho implementato sicurezza a livello di endpoint e generatore di guide/fatture per SII.',
     },
   },
   {
@@ -431,14 +420,25 @@ export const experience: Experience[] = [
     },
   },
   {
-    role: '.NET Developer',
-    company: 'Serviphar',
-    period: 'Febrero 2026 — Actualidad',
+    role: 'Developer & Web Scraper Specialist',
+    company: 'Neosoltec',
+    period: 'Agosto 2023 — Enero 2024',
     description: {
-      es: 'Desarrollé un cotizador de recetario magistral con .NET Core 10, construyendo APIs e integraciones para procesos críticos. Implementé seguridad a nivel de endpoints y generador de guías y facturas para SII.',
-      en: 'Developed a magistral formula quotation system with .NET Core 10, building APIs and integrations for critical processes. Implemented endpoint-level security and guide/invoice generator for SII.',
-      pt: 'Desenvolvi um sistema de cotação de fórmulas magistrais com .NET Core 10, construindo APIs e integrações para processos críticos. Implementei segurança em endpoints e gerador de guias/faturas para SII.',
-      it: 'Ho sviluppato un sistema di quotazione per formule magistrali con .NET Core 10, costruendo API e integrazioni per processi critici. Ho implementato sicurezza a livello di endpoint e generatore di guide/fatture per SII.',
+      es: 'Desarrollo de herramientas automatizadas de extracción de datos con Python y Selenium. Análisis de datos y generación de reportes automáticos. Extracción de 10,000+ registros diarios.',
+      en: 'Development of automated data extraction tools with Python and Selenium. Data analysis and automatic report generation. Extraction of 10,000+ daily records.',
+      pt: 'Desenvolvimento de ferramentas automatizadas de extração de dados com Python e Selenium. Análise de dados e geração automática de relatórios. Extração de 10.000+ registros diários.',
+      it: 'Sviluppo di strumenti automatizzati di estrazione dati con Python e Selenium. Analisi dei dati e generazione automatica di report. Estrazione di 10.000+ record giornalieri.',
+    },
+  },
+  {
+    role: 'Full Stack Developer',
+    company: 'Permify',
+    period: 'Noviembre 2022 — Enero 2023',
+    description: {
+      es: 'Desarrollo de aplicaciones web completas con Django y React. Implementación de arquitecturas escalables y microservicios para plataformas de terapia y arte para adultos mayores.',
+      en: 'Full-stack web application development with Django and React. Implementation of scalable architectures and microservices for art therapy platforms for elderly adults.',
+      pt: 'Desenvolvimento de aplicações web full-stack com Django e React. Implementação de arquiteturas escaláveis e microsserviços para plataformas de arteterapia para idosos.',
+      it: 'Sviluppo di applicazioni web full-stack con Django e React. Implementazione di architetture scalabili e microservizi per piattaforme di arteterapia per anziani.',
     },
   },
 ];
