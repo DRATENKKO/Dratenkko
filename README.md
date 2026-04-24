@@ -1,50 +1,62 @@
-# React + TypeScript + Vite
+# 👋 Hola, soy Sebastian Vargas B.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Full Stack Developer** desde Chile 🇨🇱 | Analista Programador
 
-Currently, two official plugins are available:
+Transformando ideas en proyectos digitales innovadores y funcionales con creatividad y eficiencia.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🔧 Stack Tecnológico
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+**Lenguajes**
+- Python · C#/.NET · TypeScript · Dart · SQL · Java
 
-- Configure the top-level `parserOptions` property like this:
+**Frameworks &运行时**
+- .NET Core · Django · Flutter · React · Angular · Ionic
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+**Bases de Datos**
+- SQL Server · PostgreSQL · MongoDB
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+**Herramientas & Otros**
+- Docker · Selenium · Git · Vite · Framer Motion · Tailwind CSS · Figma
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+---
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## 💼 Experiencia
+
+**Serviphar** — .NET Developer (Feb 2026 → Actual)
+- Cotizador de recetario magistral con .NET Core 10
+- APIs e integraciones para procesos críticos del negocio
+- Generador de guías y facturas para SII (procesamiento masivo)
+- Seguridad a nivel de endpoints
+
+**I-GO** — .NET Developer (Feb 2024 → Abr 2024)
+
+**NEOSOLTEC** — Desarrollador / Webscraper (Ago 2023 → Ene 2024)
+
+**PERMIFY** — Full Stack Developer (Nov 2022 → Ene 2023)
+
+---
+
+## 🛠️ Lo que hago
+
+- 📦 **APIs y backend** — .NET Core, Django, arquitecturas escalables
+- 🎨 **Frontend** — React, Flutter, interfaces modernas
+- 🤖 **Automation & AI** — Scripts, integraciones con LLMs, bots
+- 🦊 **Camoufox + Hermes** — Skill open source para navegación anti-detección
+
+---
+
+## 📫 Contacto
+
+- 🌐 [sebavb.dev](https://sebavb.dev/)
+- 💼 [LinkedIn](https://www.linkedin.com/in/svb404/)
+- 🐙 [GitHub](https://github.com/Dratenkko)
+- 📧 [sebavarber@proton.me](mailto:sebavarber@proton.me)
+- 📱 +56 9 3639 6900
+
+---
+
+## 📌 Repo destacado
+
+🦊 [Hermes-camofox-browser-Skill](https://github.com/DRATENKKO/Hermes-camofox-browser-Skill) — Skill para conectar Hermes Agent (WSL2) con Camoufox Browser (Windows). Navegación anti-detección sin complicaciones.
