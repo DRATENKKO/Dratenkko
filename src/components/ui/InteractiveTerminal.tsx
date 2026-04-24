@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Sparkles, Code2, Send, Bot } from 'lucide-react';
+import { X, Code2, Send, Bot } from 'lucide-react';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -96,8 +96,7 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
       setShowWelcome(false);
       setMessages([{
         role: 'assistant',
-        content: language === 'es' ? WELCOME_ES : WELCOME_EN,
-      }]);
+        content: language === 'es' ? WELCOME_ES : WELCOME_EN}]);
     }
   }, [isOpen, language, showWelcome]);
 
@@ -131,16 +130,13 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${API_KEY}`,
-          'Content-Type': 'application/json',
-        },
+          'Content-Type': 'application/json'},
         body: JSON.stringify({
           model: 'MiniMax-M2.7',
           messages: msgs,
           max_tokens: 500,
           system: SYSTEM_PROMPT,
-          temperature: 0.8,
-        }),
-      });
+          temperature: 0.8})});
 
       const data = await response.json();
 

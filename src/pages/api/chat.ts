@@ -1,96 +1,31 @@
-import type { NextRequest } from 'next/server';
-
-const MINIMAX_API_KEY = 'sk-cp-xhetS3mRR0cGsJJXc2kM9gboQphiLqLFEHdTpO8UE7EV2PN-LgwEVUr3M6iBq3coD0y-HB8eC8-tqN5wVUH8maYwZYySsKSVPLPhei_m660q1xNLKKvQ9GQ';
-
-const SYSTEM_PROMPT = `Eres un asistente virtual para el portafolio de Sebastián Vargas Bermejo (svb.dev, GitHub: Dratenkko).
-
-INFORMACIÓN SOBRE SEBASTIÁN:
-- Nombre: Sebastián Alejandro Andrés Vargas Bermejo
-- Ubicación: Viña del Mar, Chile
-- Teléfono: +56 9 3639 6900
-- Email: sebavarber@proton.me
-- LinkedIn: linkedin.com/in/svb404
-- GitHub: github.com/Dratenkko
-
-EXPERIENCIA LABORAL:
-1. SERVIPHAR (Feb 2026 - Actual): Desarrollador .NET
-2. I-GO (Feb 2024 - Abr 2024): Desarrollador .NET
-3. NEOSOLTEC (Ago 2023 - Ene 2024): Desarrollador/Webscraper
-4. PERMIFY (Nov 2022 - Ene 2023): Desarrollador Full Stack
-
-EDUCACIÓN: Analista Programador Computacional - Duoc UC (Jul 2023)
-
-SKILLS: Python, C#/.NET, Django, Flutter, Angular, Docker, Selenium, SQL
-
-PROYECTOS: ArtMind, Sparedrive, Scrappers, PetOut, Prac
-
-REGLAS:
-1. Solo responde sobre Sebastián
-2. No des código fuente
-3. Si piden código, rechaza amablemente
-4. Responde en español o inglés según el usuario`;
-
-interface AnthropicMessage {
-  role: 'user' | 'assistant';
-  content: Array<{type: 'text'; text: string}>;
-}
-
-interface AnthropicResponse {
-  id?: string;
-  type?: string;
-  role?: string;
-  model?: string;
-  content?: Array<{type: 'text' | 'thinking'; text?: string; thinking?: string}>;
-  usage?: {
-    input_tokens: number;
-    output_tokens: number;
-    cache_creation_input_tokens?: number;
-    cache_read_input_tokens?: number;
-  };
-  stop_reason?: string;
-  base_resp?: {status_code: number; status_msg: string};
-  error?: {
-    type: string;
-    message: string;
-    http_code: string;
-  };
-}
-
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { message, history } = body;
+    const { message, history } = await request.json();
 
     if (!message || typeof message !== 'string') {
       return Response.json({ error: 'Message is required' }, { status: 400 });
     }
 
-    const anthropicMessages: AnthropicMessage[] = [];
+    const anthropicMessages: {role: 'user' | 'assistant'; content: string}[] = [];
 
-    // Add history
     if (history && Array.isArray(history)) {
       const validHistory = history.slice(-10).filter(
-        (m: {role?: string; content?: string}) => 
+        (m: {role?: string; content?: string}) =>
           m && m.role && m.content && ['user', 'assistant'].includes(m.role)
       );
       for (const m of validHistory) {
-        anthropicMessages.push({
-          role: m.role as 'user' | 'assistant',
-          content: [{ type: 'text', text: m.content }]
-        });
+        anthropicMessages.push({ role: m.role as 'user' | 'assistant', content: m.content });
       }
     }
 
-    // Add current message
-    anthropicMessages.push({
-      role: 'user',
-      content: [{ type: 'text', text: message }]
-    });
+    anthropicMessages.push({ role: 'user', content: message });
+
+    const API_KEY = (await import.meta.env.VITE_MINIMAX_API_KEY) || '';
 
     const response = await fetch('https://api.minimax.io/anthropic/v1/messages', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${MINIMAX_API_KEY}`,
+        'Authorization': `Bearer ${API_KEY}`,
         'Content-Type': 'application/json',
         'anthropic-version': '2023-06-01',
       },
@@ -98,31 +33,16 @@ export async function POST(request: NextRequest) {
         model: 'MiniMax-M2.7',
         messages: anthropicMessages,
         max_tokens: 300,
-        system: SYSTEM_PROMPT,
         temperature: 0.8,
       }),
     });
 
-    const data: AnthropicResponse = await response.json();
-
-    // Check for error in response body (MiniMax returns {type: "error", error: {...}})
-    if (data.type === 'error' && data.error) {
-      console.error('MiniMax API error:', data.error);
-      return Response.json({ 
-        error: data.error.message || 'API error',
-        details: data.error
-      }, { status: 401 });
-    }
+    const data = await response.json();
 
     if (!response.ok) {
-      console.error('MiniMax HTTP error:', response.status, JSON.stringify(data));
-      return Response.json({ 
-        error: `HTTP error: ${response.status}`,
-        details: data
-      }, { status: response.status });
+      return Response.json({ error: `HTTP error: ${response.status}`, details: data }, { status: response.status });
     }
 
-    // Extract text from response
     let aiMessage = '';
     if (data.content && Array.isArray(data.content)) {
       for (const block of data.content) {
@@ -132,17 +52,8 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    if (!aiMessage) {
-      aiMessage = 'No pude generar una respuesta.';
-    }
-
-    return Response.json({ response: aiMessage });
-
+    return Response.json({ response: aiMessage || 'No pude generar una respuesta.' });
   } catch (error) {
-    console.error('Server error:', error);
-    return Response.json({ 
-      error: 'Server error', 
-      message: error instanceof Error ? error.message : String(error)
-    }, { status: 500 });
+    return Response.json({ error: 'Server error', message: String(error) }, { status: 500 });
   }
 }

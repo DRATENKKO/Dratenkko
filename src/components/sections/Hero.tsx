@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Linkedin, Github, Award, Sparkles, Code2, ChevronDown, MessageCircle } from 'lucide-react';
+import { Sparkles, MessageCircle, Linkedin, Award, Code2, ChevronDown } from 'lucide-react';
 import { translations, contactInfo } from '../../data/constants';
 
 interface HeroProps {
@@ -20,8 +20,7 @@ export const Hero = ({ language }: HeroProps) => {
           animate={{
             scale: [1, 1.2, 1],
             x: [0, 30, 0],
-            y: [0, -20, 0],
-          }}
+            y: [0, -20, 0]}}
           transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
           className="absolute top-20 left-10 w-64 h-64 bg-blue-400/30 dark:bg-blue-600/20 rounded-full blur-3xl"
         />
@@ -29,8 +28,7 @@ export const Hero = ({ language }: HeroProps) => {
           animate={{
             scale: [1, 1.3, 1],
             x: [0, -40, 0],
-            y: [0, 30, 0],
-          }}
+            y: [0, 30, 0]}}
           transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
           className="absolute top-40 right-10 w-72 h-72 bg-purple-400/25 dark:bg-purple-600/15 rounded-full blur-3xl"
         />
@@ -38,8 +36,7 @@ export const Hero = ({ language }: HeroProps) => {
           animate={{
             scale: [1, 1.1, 1],
             x: [0, 20, 0],
-            y: [0, 40, 0],
-          }}
+            y: [0, 40, 0]}}
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
           className="absolute bottom-20 left-1/3 w-56 h-56 bg-pink-400/25 dark:bg-pink-600/20 rounded-full blur-3xl"
         />

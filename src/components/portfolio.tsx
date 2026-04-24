@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { MessageCircle, Sparkles, PartyPopper } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { Project } from '../data/constants';
 import { Navbar } from './layout/Navbar';
 import { Footer } from './layout/Footer';
