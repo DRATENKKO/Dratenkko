@@ -91,20 +91,25 @@ const Portfolio = () => {
         )}
       </AnimatePresence>
 
-      {/* Creative Terminal Button */}
+      {/* AI Terminal Button - WhatsApp style pulsing */}
       <div className="fixed bottom-24 right-6 z-50">
         <motion.button
           onClick={() => setIsTerminalOpen(true)}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.92 }}
           className="relative group"
           aria-label="Abrir terminal creativo"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-full blur-lg opacity-40 group-hover:opacity-60 transition-opacity duration-300" />
-          <div className="relative w-14 h-14 bg-gray-900 rounded-full flex items-center justify-center shadow-2xl border border-gray-700">
-            <Sparkles size={20} className="text-cyan-400" />
+          {/* Outer pulsing ring - WhatsApp style */}
+          <span className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 animate-ping opacity-30" style={{animationDuration: '2s', animationDelay: '0s'}} />
+          {/* Middle ring */}
+          <span className="absolute inset-[-4px] rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 opacity-40 animate-pulse" style={{animationDuration: '2.5s'}} />
+          {/* Inner glow */}
+          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500/50 via-blue-500/50 to-purple-500/50 blur-md opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
+          {/* Button */}
+          <div className="relative w-14 h-14 bg-gradient-to-br from-gray-800 to-gray-900 rounded-full flex items-center justify-center shadow-2xl border border-cyan-500/50">
+            <Sparkles size={20} className="text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
           </div>
-          <div className="absolute inset-0 rounded-full border-2 border-cyan-500 animate-ping opacity-20" />
         </motion.button>
       </div>
 
