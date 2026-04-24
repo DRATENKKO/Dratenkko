@@ -11,7 +11,7 @@ Transformando ideas en proyectos digitales innovadores y funcionales con creativ
 **Lenguajes**
 - Python · C#/.NET · TypeScript · Dart · SQL · Java
 
-**Frameworks &运行时**
+**Frameworks **
 - .NET Core · Django · Flutter · React · Angular · Ionic
 
 **Bases de Datos**
