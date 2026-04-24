@@ -4,9 +4,23 @@
 
 Transformando ideas en proyectos digitales innovadores y funcionales con creatividad y eficiencia.
 
-## 🔧 Stack
+---
 
-`.NET Core` · `Python` · `Flutter` · `React` · `TypeScript` · `SQL Server` · `PostgreSQL`
+## 🔧 Stack Tecnológico
+
+**Lenguajes**
+- Python · C#/.NET · TypeScript · Dart · SQL · Java
+
+**Frameworks &运行时**
+- .NET Core · Django · Flutter · React · Angular · Ionic
+
+**Bases de Datos**
+- SQL Server · PostgreSQL · MongoDB
+
+**Herramientas & Otros**
+- Docker · Selenium · Git · Vite · Framer Motion · Tailwind CSS · Figma
+
+---
 
 ## 💼 Experiencia
 
@@ -22,6 +36,8 @@ Transformando ideas en proyectos digitales innovadores y funcionales con creativ
 
 **PERMIFY** — Full Stack Developer (Nov 2022 → Ene 2023)
 
+---
+
 ## 🛠️ Lo que hago
 
 - 📦 **APIs y backend** — .NET Core, Django, arquitecturas escalables
@@ -29,31 +45,18 @@ Transformando ideas en proyectos digitales innovadores y funcionales con creativ
 - 🤖 **Automation & AI** — Scripts, integraciones con LLMs, bots
 - 🦊 **Camoufox + Hermes** — Skill open source para navegación anti-detección
 
-## 🏆 Proyectos destacados
-
-- [Sparedrive](https://github.com/Dratenkko/sparedrive) — App de backups en la nube
-- [ArtMind](https://github.com/Dratenkko/artmind) — Generación de arte con IA
-- [Scrappers](https://github.com/Dratenkko/scrappers) — Web scrapers avanzados
-- [Hermes-camofox-browser-skill](https://github.com/DRATENKKO/Hermes-camofox-browser-Skill) — Skill para navegación anti-detección
-
-## 🤖 Portafolio con IA
-
-Este portafolio incluye un **asistente virtual**potenciado por MiniMax que responde preguntas sobre mi perfil, experiencia y proyectos. Pruébalo en la terminal interactiva.
-
-## 🎓 Educación
-
-**Analista Programador Computacional** — Duoc UC (Jul 2023)
-
-## 🌐 Idiomas
-
-- 🇬🇧 English — C2 Avanzado (TOEIC Bridge, EF SET C2)
-- 🇵🇹 Português — Intermedio-alto
-- 🇮🇹 Italiano — Intermedio
+---
 
 ## 📫 Contacto
 
 - 🌐 [sebavb.dev](https://sebavb.dev/)
 - 💼 [LinkedIn](https://www.linkedin.com/in/svb404/)
 - 🐙 [GitHub](https://github.com/Dratenkko)
-- 📧 sebavarber@proton.me
+- 📧 [sebavarber@proton.me](mailto:sebavarber@proton.me)
 - 📱 +56 9 3639 6900
+
+---
+
+## 📌 Repo destacado
+
+🦊 [Hermes-camofox-browser-Skill](https://github.com/DRATENKKO/Hermes-camofox-browser-Skill) — Skill para conectar Hermes Agent (WSL2) con Camoufox Browser (Windows). Navegación anti-detección sin complicaciones.
