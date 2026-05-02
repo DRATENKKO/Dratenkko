@@ -4,7 +4,7 @@ import { GitFork, Activity, Code2, ExternalLink, Star, AlertTriangle } from 'luc
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 const GITHUB_USERNAME = 'Dratenkko';
-const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN || '';
+const GITHUB_TOKEN = '';
 const CACHE_KEY = 'github_stats_cache';
 const CACHE_TTL_MS = 1000 * 60 * 15; // 15 minutes
 

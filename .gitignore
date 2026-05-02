@@ -14,10 +14,6 @@ dist/
 dist-ssr/
 *.local
 
-# GitHub Pages build assets (generated, can cause false positive secret scanning)
-docs/assets/*.js
-docs/assets/*.css
-
 # Environment variables — NEVER commit secrets
 .env
 .env.local
