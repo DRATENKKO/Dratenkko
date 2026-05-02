@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
-import { Sparkles, MessageCircle, Linkedin, Award, Code2, ChevronDown } from 'lucide-react';
+import { Sparkles, MessageCircle, Linkedin, Award, Code2, ChevronDown, FileText } from 'lucide-react';
 import { translations, contactInfo } from '../../data/constants';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 interface HeroProps {
   language: string;
@@ -8,42 +9,36 @@ interface HeroProps {
 
 export const Hero = ({ language }: HeroProps) => {
   const t = translations;
+  const reducedMotion = useReducedMotion();
 
   return (
-    <section id="inicio" className="min-h-screen flex items-center justify-center pt-16 sm:pt-20 relative overflow-hidden">
+    <section id="inicio" className="min-h-screen flex items-center justify-center pt-16 sm:pt-20 relative overflow-hidden" aria-label="Inicio">
       {/* Animated Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-deep-ocean dark:via-blue-900/30 dark:to-purple-900/30"></div>
-      
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-deep-ocean dark:via-blue-900/30 dark:to-purple-900/30" />
+
       {/* Animated Orbs */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            x: [0, 30, 0],
-            y: [0, -20, 0]}}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-20 left-10 w-64 h-64 bg-blue-400/30 dark:bg-blue-600/20 rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{
-            scale: [1, 1.3, 1],
-            x: [0, -40, 0],
-            y: [0, 30, 0]}}
-          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-          className="absolute top-40 right-10 w-72 h-72 bg-purple-400/25 dark:bg-purple-600/15 rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{
-            scale: [1, 1.1, 1],
-            x: [0, 20, 0],
-            y: [0, 40, 0]}}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
-          className="absolute bottom-20 left-1/3 w-56 h-56 bg-pink-400/25 dark:bg-pink-600/20 rounded-full blur-3xl"
-        />
-      </div>
+      {!reducedMotion && (
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div
+            animate={{ scale: [1, 1.2, 1], x: [0, 30, 0], y: [0, -20, 0] }}
+            transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute top-20 left-10 w-64 h-64 bg-blue-400/30 dark:bg-blue-600/20 rounded-full blur-3xl"
+          />
+          <motion.div
+            animate={{ scale: [1, 1.3, 1], x: [0, -40, 0], y: [0, 30, 0] }}
+            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+            className="absolute top-40 right-10 w-72 h-72 bg-purple-400/25 dark:bg-purple-600/15 rounded-full blur-3xl"
+          />
+          <motion.div
+            animate={{ scale: [1, 1.1, 1], x: [0, 20, 0], y: [0, 40, 0] }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
+            className="absolute bottom-20 left-1/3 w-56 h-56 bg-pink-400/25 dark:bg-pink-600/20 rounded-full blur-3xl"
+          />
+        </div>
+      )}
 
       {/* Grid Pattern Overlay */}
-      <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]" 
+      <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
         style={{
           backgroundImage: `linear-gradient(rgba(139, 92, 246, 0.3) 1px, transparent 1px), 
                            linear-gradient(90deg, rgba(139, 92, 246, 0.3) 1px, transparent 1px)`,
@@ -53,24 +48,24 @@ export const Hero = ({ language }: HeroProps) => {
 
       <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-16 relative z-10">
         <div className="max-w-5xl mx-auto text-center space-y-8 sm:space-y-10">
-          
+
           {/* Floating Badge */}
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={reducedMotion ? {} : { opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-full shadow-lg border border-purple-200 dark:border-purple-800"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            <span className="relative flex h-2 w-2" aria-hidden="true">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
             </span>
             <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Disponible para proyectos</span>
           </motion.div>
 
           {/* Title */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={reducedMotion ? {} : { opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.2 }}
             className="space-y-4"
@@ -88,7 +83,7 @@ export const Hero = ({ language }: HeroProps) => {
 
           {/* Subtitle */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.4 }}
             className="text-lg sm:text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-medium"
@@ -96,11 +91,11 @@ export const Hero = ({ language }: HeroProps) => {
             {t.hero.subtitle[language as keyof typeof t.hero.subtitle]}
           </motion.p>
 
-          {/* Description */}
+          {/* Value Proposition - NEW */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.6 }}
+            transition={{ duration: 0.3, delay: 0.5 }}
             className="text-base sm:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed"
           >
             {t.hero.description[language as keyof typeof t.hero.description]}
@@ -108,35 +103,47 @@ export const Hero = ({ language }: HeroProps) => {
 
           {/* CTA Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={reducedMotion ? {} : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.8 }}
             className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-4"
           >
             <motion.a
               href="#proyectos"
-              whileHover={{ scale: 1.05, y: -2 }}
+              whileHover={reducedMotion ? {} : { scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
               className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-size-200 bg-pos-0 hover:bg-pos-100 text-white font-bold rounded-xl sm:rounded-2xl shadow-xl shadow-purple-500/30 hover:shadow-2xl hover:shadow-purple-500/40 transition-all duration-300 min-h-[48px]"
             >
-              <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+              <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" aria-hidden="true" />
               {t.hero.cta1[language as keyof typeof t.hero.cta1]}
             </motion.a>
-            
+
             <motion.a
               href="#contacto"
-              whileHover={{ scale: 1.05, y: -2 }}
+              whileHover={reducedMotion ? {} : { scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
               className="group inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-4 bg-white dark:bg-gray-800 text-gray-800 dark:text-white font-bold rounded-xl sm:rounded-2xl shadow-lg border-2 border-gray-200 dark:border-gray-700 hover:border-purple-500 hover:shadow-xl transition-all duration-300 min-h-[48px]"
             >
               <span>{t.hero.cta2[language as keyof typeof t.hero.cta2]}</span>
-              <Code2 className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+              <Code2 className="w-5 h-5 group-hover:rotate-12 transition-transform" aria-hidden="true" />
+            </motion.a>
+
+            {/* Download CV CTA - NEW */}
+            <motion.a
+              href={language === 'en' ? `${import.meta.env.BASE_URL}Resume.pdf` : `${import.meta.env.BASE_URL}CV.pdf`}
+              download
+              whileHover={reducedMotion ? {} : { scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className="group inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold rounded-xl sm:rounded-2xl shadow-lg shadow-emerald-500/20 hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300 min-h-[48px]"
+            >
+              <FileText className="w-5 h-5 group-hover:rotate-12 transition-transform" aria-hidden="true" />
+              {t.contact.downloadCV[language as keyof typeof t.contact.downloadCV]}
             </motion.a>
           </motion.div>
 
           {/* Social Links */}
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={reducedMotion ? {} : { opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3, delay: 1 }}
             className="flex gap-3 sm:gap-4 justify-center pt-4"
@@ -145,34 +152,34 @@ export const Hero = ({ language }: HeroProps) => {
               href={contactInfo.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.1, y: -3 }}
+              whileHover={reducedMotion ? {} : { scale: 1.1, y: -3 }}
               whileTap={{ scale: 0.95 }}
               className="p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 hover:border-blue-500 hover:shadow-xl transition-all duration-300 min-w-[48px] min-h-[48px] flex items-center justify-center"
               aria-label="LinkedIn"
             >
-              <Linkedin size={22} className="text-blue-600 dark:text-blue-400" />
+              <Linkedin size={22} className="text-blue-600 dark:text-blue-400" aria-hidden="true" />
             </motion.a>
             <motion.a
               href="https://wa.me/56936396900"
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.1, y: -3 }}
+              whileHover={reducedMotion ? {} : { scale: 1.1, y: -3 }}
               whileTap={{ scale: 0.95 }}
               className="p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 hover:border-green-500 hover:shadow-xl transition-all duration-300 min-w-[48px] min-h-[48px] flex items-center justify-center"
               aria-label="WhatsApp"
             >
-              <MessageCircle size={22} className="text-green-600 dark:text-green-400" />
+              <MessageCircle size={22} className="text-green-600 dark:text-green-400" aria-hidden="true" />
             </motion.a>
           </motion.div>
 
           {/* Disability Badge */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={reducedMotion ? {} : { opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 1.2 }}
             className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 dark:from-blue-900/30 dark:via-purple-900/30 dark:to-pink-900/30 rounded-2xl border border-blue-300 dark:border-blue-700 shadow-lg"
           >
-            <Award size={22} className="text-blue-600 dark:text-blue-400" />
+            <Award size={22} className="text-blue-600 dark:text-blue-400" aria-hidden="true" />
             <span className="text-sm font-semibold text-blue-800 dark:text-blue-200">
               {t.hero.disabilityBadge[language as keyof typeof t.hero.disabilityBadge]}
             </span>
@@ -181,21 +188,23 @@ export const Hero = ({ language }: HeroProps) => {
       </div>
 
       {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 0.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
+      {!reducedMotion && (
         <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          className="flex flex-col items-center gap-2 text-gray-400 dark:text-gray-500"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 0.5 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
         >
-          <span className="text-xs font-medium">Scroll</span>
-          <ChevronDown size={20} />
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            className="flex flex-col items-center gap-2 text-gray-400 dark:text-gray-500"
+          >
+            <span className="text-xs font-medium">Scroll</span>
+            <ChevronDown size={20} aria-hidden="true" />
+          </motion.div>
         </motion.div>
-      </motion.div>
+      )}
     </section>
   );
 };

@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useSpring } from 'framer-motion';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 export const CustomCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const cursorRef = useRef<HTMLDivElement>(null);
+  const reducedMotion = useReducedMotion();
 
   const springConfig = { damping: 25, stiffness: 200 };
   const cursorX = useSpring(0, springConfig);
@@ -48,8 +50,8 @@ export const CustomCursor = () => {
     };
   }, [cursorX, cursorY, isVisible]);
 
-  // Don't show on touch devices
-  if (typeof window !== 'undefined' && 'ontouchstart' in window) {
+  // Don't show on touch devices or if user prefers reduced motion
+  if (typeof window !== 'undefined' && ('ontouchstart' in window || reducedMotion)) {
     return null;
   }
 

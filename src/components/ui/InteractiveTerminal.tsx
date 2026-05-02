@@ -1,70 +1,21 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Code2, Send, Bot } from 'lucide-react';
+import { X, Send, Bot, Trash2, Loader2 } from 'lucide-react';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
+import {
+  buildSystemPrompt,
+  getQuickQuestions,
+  getWelcomeMessage,
+  getCodeBlockMessage,
+  getErrorFallbackMessage,
+  getPlaceholder,
+} from '../../lib/ai/prompt';
+import { sendChatMessage, ChatError } from '../../lib/ai/client';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
 }
-
-const SYSTEM_PROMPT = `Eres el ASISTENTE VIRTUAL de SEBASTIAN VARGAS. Solo puedes dar informacion sobre Sebastian.
-
-REGLAS ESTRICTAS:
-1. SOLO HABLA EN ESPAÑOL. Siempre. Sin excepciones.
-2. NO uses caracteres chinos, cirilicos, ni emojis raros. Solo español con puntos y comas normales.
-3. NUNCA inventes informacion. Solo dice lo que sabes de Sebastian.
-4. SOLO habla de Sebastian. No de otras personas.
-5. NUNCA muestres bloques de pensamiento, razonamiento, ni tags como <think>, <thinking>,<think>, etc.
-6. NUNCA escribas el proceso de razonamiento en tu respuesta. Solo da la respuesta final.
-
-SOBRE SEBASTIAN:
-- Nombre: Sebastian Alejandro Andres Vargas Bermejo
-- Ubicacion: Vina del Mar, Chile
-- Telefono: +56 9 3639 6900
-- Email: sebavarber@proton.me
-- LinkedIn: linkedin.com/in/svb404
-- GitHub: github.com/Dratenkko
-
-EXPERIENCIA:
-1. SERVIPHAR (Feb 2026 - Actual): Desarrollador .NET
-2. I-GO (Feb 2024 - Abr 2024): Desarrollador .NET
-3. NEOSOLTEC (Ago 2023 - Ene 2024): Desarrollador/Webscraper
-4. PERMIFY (Nov 2022 - Ene 2023): Desarrollador Full Stack
-
-EDUCACION: Analista Programador Computacional - Duoc UC (Jul 2023)
-
-SKILLS: Python, C#/.NET, Django, Flutter, Angular, Docker, Selenium, SQL
-
-PROYECTOS: ArtMind, Sparedrive, Scrappers, PetOut, Prac
-
-Si preguntan algo que no sea sobre Sebastian, responde: "Solo puedo dar informacion sobre Sebastian Vargas."`;
-
-const API_KEY = import.meta.env.VITE_MINIMAX_API_KEY || '';
-
-const BLOCKED_PATTERNS = [
-  'codigo', 'código', 'source code', 'import ', 'function ', 'class ', 'const ', 'let ', 'var ',
-  'def ', 'python', 'javascript', 'typescript', 'c#', '.net', 'write code', 'help me code',
-  'dame el codigo', 'show me code', 'how to code', 'create a', 'build a', 'implement',
-];
-
-function isCodeRequest(text: string): boolean {
-  const lower = text.toLowerCase();
-  return BLOCKED_PATTERNS.some(pattern => lower.includes(pattern));
-}
-
-const WELCOME_ES = `[AI] Hola! Soy el asistente de Sebastian. Preguntame sobre el, su experiencia, proyectos o habilidades. No puedo ayudar con codigo.`;
-
-const WELCOME_EN = `[AI] Hi! I'm Sebastian's assistant. Ask me about him, his experience, projects or skills. I can't help with code.`;
-
-const CODE_BLOCK_ES = "Lo siento, no puedo ayudarte con codigo. Que otra cosa quieres saber sobre Sebastian?";
-
-const CODE_BLOCK_EN = "Sorry, I can't help with code. What else would you like to know about Sebastian?";
-
-const quickLinks = [
-  { label: 'GitHub', url: 'https://github.com/Dratenkko' },
-  { label: 'LinkedIn', url: 'https://linkedin.com/in/svb404' },
-  { label: 'WhatsApp', url: 'https://wa.me/56936396900' },
-];
 
 interface InteractiveTerminalProps {
   language: string;
@@ -72,189 +23,249 @@ interface InteractiveTerminalProps {
   onClose: () => void;
 }
 
+/**
+ * Lightweight guard against code requests.
+ * These patterns are specific enough to avoid false positives
+ * while catching obvious programming help requests.
+ */
+const BLOCKED_PATTERNS = [
+  'codigo', 'código', 'source code', 'import ', 'function ', 'class ',
+  'def ', 'write code', 'help me code', 'dame el codigo', 'dame código',
+  'show me code', 'how to code', 'crea un script', 'crea una funcion',
+  'crea una función', 'hazme un script', 'programa en python',
+  'programa en javascript', 'programa en c#', 'programa en dart',
+  'resuelve este ejercicio', 'debug this', 'arregla este codigo',
+];
+
+function isCodeRequest(text: string): boolean {
+  const lower = text.toLowerCase();
+  return BLOCKED_PATTERNS.some((pattern) => lower.includes(pattern));
+}
+
+/** Animated typing dots for the assistant */
+function TypingIndicator() {
+  return (
+    <div className="flex items-center gap-1 pl-4 py-1" aria-live="assertive" aria-label="El asistente está escribiendo">
+      <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+      <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+      <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+    </div>
+  );
+}
+
 export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTerminalProps) => {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
-  const [showWelcome, setShowWelcome] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
+  const reducedMotion = useReducedMotion();
 
+  // Auto-focus input when opened
   useEffect(() => {
-    if (isOpen && inputRef.current) {
-      inputRef.current.focus();
+    if (isOpen) {
+      const timer = setTimeout(() => inputRef.current?.focus(), 100);
+      return () => clearTimeout(timer);
     }
   }, [isOpen]);
 
+  // Auto-scroll to bottom
   useEffect(() => {
     if (terminalRef.current) {
       terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, isTyping, error]);
 
+  // Initialize welcome message when first opened
   useEffect(() => {
-    if (isOpen && showWelcome) {
-      setShowWelcome(false);
-      setMessages([{
-        role: 'assistant',
-        content: language === 'es' ? WELCOME_ES : WELCOME_EN}]);
-    }
-  }, [isOpen, language, showWelcome]);
-
-  const sendMessage = async (text: string) => {
-    if (!text.trim() || isTyping) return;
-
-    if (isCodeRequest(text)) {
-      setMessages(prev => [...prev, 
-        { role: 'user', content: text },
-        { role: 'assistant', content: language === 'es' ? CODE_BLOCK_ES : CODE_BLOCK_EN }
+    if (isOpen && messages.length === 0) {
+      setMessages([
+        {
+          role: 'assistant',
+          content: getWelcomeMessage(language),
+        },
       ]);
-      return;
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, language]);
 
-    const userMessage = text.trim();
-    const newMessages = [...messages, { role: 'user' as const, content: userMessage }];
-    setMessages(newMessages);
-    setInput('');
-    setIsTyping(true);
-    setError(null);
+  // Close on Escape + trap focus when open
+  useEffect(() => {
+    if (!isOpen) return;
 
-    try {
-      // Build messages in MiniMax format
-      const msgs = newMessages.slice(-10).map(m => ({
-        role: m.role,
-        content: m.content
-      }));
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
-      // Use standard MiniMax endpoint for Token Plan
-      const response = await fetch('https://api.minimax.io/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${API_KEY}`,
-          'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          model: 'MiniMax-M2.7',
-          messages: msgs,
-          max_tokens: 500,
-          system: SYSTEM_PROMPT,
-          temperature: 0.8})});
+  const sendMessage = useCallback(
+    async (text: string) => {
+      const trimmed = text.trim();
+      if (!trimmed || isTyping) return;
 
-      const data = await response.json();
-
-      // Extract text from MiniMax standard response
-      let aiMessage = '';
-      if (data.choices && data.choices[0]?.message?.content) {
-        aiMessage = data.choices[0].message.content;
-      } else if (data.content) {
-        aiMessage = data.content;
+      // Code request guard
+      if (isCodeRequest(trimmed)) {
+        setMessages((prev) => [
+          ...prev,
+          { role: 'user', content: trimmed },
+          { role: 'assistant', content: getCodeBlockMessage(language) },
+        ]);
+        setInput('');
+        return;
       }
 
-      // Strip thinking blocks: remove content between ━ markers, думаю, думаю, or<think> tags
-      aiMessage = aiMessage
-        .replace(/━━━━━━━━━━━━━━━━━━[\s\S]*?━━━━━━━━━━━━━━━━━━/g, '')
-        .replace(/<думаю[\s\S]*?<\/думаю>/gi, '')
-        .replace(/<thinking[\s\S]*?<\/thinking>/gi, '')
-        .replace(/<think[\s\S]*?<\/think>/gi, '')
-        .replace(/<think>[\s\S]*?<\/think>/gi, '')
-        .replace(/<思[\s\S]*?<\/思>/gi, '')
-        .replace(/<thought[\s\S]*?<\/thought>/gi, '')
-        .replace(/<reflexion[\s\S]*?<\/reflexion>/gi, '')
-        .replace(/<reflexión[\s\S]*?<\/reflexión>/gi, '')
-        .replace(/<分析[\s\S]*?<\/分析>/gi, '')
-        .replace(/<思考[\s\S]*?<\/思考>/gi, '')
-        .replace(/<reasoning[\s\S]*?<\/reasoning>/gi, '')
-        .replace(/\\_thinking[\\S]*?\\_/gi, '')
-        .replace(/\*\*Reasoning\*\*[\s\S]*?\*\*Output\*\*/gi, '')
-        .replace(/<output>[\s\S]*?<\/output>/gi, '')
-        .replace(/<think>\s*[\s\S]*?:\s*/gi, '')
-        .replace(/\n\n+/g, '\n')
-        .trim();
-      
-      // Force Spanish: remove any non-ASCII characters except common Spanish punctuation
-      aiMessage = aiMessage.replace(/[^\x20-\x7E\náéíóúÁÉÍÓÚñÑüÜ¡!¿?.,;:\s]/g, '');
-      
-      // Remove URLs (MiniMax TTS URLs and other internal links)
-      aiMessage = aiMessage.replace(/https?:\/\/[^\s]+/gi, '').trim();
+      const userMessage = { role: 'user' as const, content: trimmed };
+      const newMessages = [...messages, userMessage];
+      setMessages(newMessages);
+      setInput('');
+      setIsTyping(true);
+      setError(null);
 
-      if (!aiMessage && data.error) {
-        throw new Error(data.error.message || 'API error');
+      try {
+        const recentMessages = newMessages.slice(-10);
+        const systemPrompt = buildSystemPrompt(language);
+
+        const response = await sendChatMessage({
+          systemPrompt,
+          messages: recentMessages,
+          maxTokens: 450,
+          temperature: 0.5,
+        });
+
+        setMessages((prev) => [...prev, { role: 'assistant', content: response }]);
+      } catch (err) {
+        console.error('Chat error:', err);
+        let friendly = getErrorFallbackMessage(language);
+        if (err instanceof ChatError) {
+          switch (err.code) {
+            case 'RATE_LIMITED':
+              friendly = 'Has enviado muchos mensajes. Espera un momento antes de continuar.';
+              break;
+            case 'NO_API_KEY':
+              friendly = 'El asistente no está configurado. Contacta a Sebastian directamente.';
+              break;
+            case 'TIMEOUT':
+              friendly = 'El asistente tardó demasiado. Inténtalo de nuevo.';
+              break;
+            case 'NETWORK':
+              friendly = 'Problema de conexión. Revisa tu red e inténtalo de nuevo.';
+              break;
+            case 'API_ERROR':
+              friendly = 'El servicio de IA tuvo un problema. Inténtalo más tarde.';
+              break;
+          }
+        }
+        setError(friendly);
+        setMessages((prev) => [...prev, { role: 'assistant', content: friendly }]);
+      } finally {
+        setIsTyping(false);
       }
-
-      if (!aiMessage) {
-        aiMessage = 'No pude generar una respuesta.';
-      }
-
-      setMessages(prev => [...prev, { role: 'assistant', content: aiMessage }]);
-    } catch (err) {
-      console.error('Chat error:', err);
-      const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
-      setError(errorMessage);
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: `❌ Error: ${errorMessage}`
-      }]);
-    } finally {
-      setIsTyping(false);
-    }
-  };
+    },
+    [isTyping, messages, language]
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     sendMessage(input);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(input);
+    }
+  };
+
+  const handleClear = () => {
+    setMessages([{ role: 'assistant', content: getWelcomeMessage(language) }]);
+    setError(null);
+  };
+
+  const handleSuggestedQuestion = (question: string) => {
+    sendMessage(question);
+  };
+
   if (!isOpen) return null;
+
+  const quickQuestions = getQuickQuestions(language);
 
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ opacity: 0, scale: 0.9, y: 30, rotateX: 10 }}
-        animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
-        exit={{ opacity: 0, scale: 0.9, y: 30, rotateX: 10 }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}
-        className="fixed bottom-24 sm:bottom-24 sm:right-4 w-[calc(100%-2rem)] sm:w-[380px] lg:w-96 z-50 mx-auto sm:mx-0"
-        style={{ perspective: '1000px' }}
+        initial={reducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={reducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.95, y: 20 }}
+        transition={{ duration: reducedMotion ? 0 : 0.25, ease: 'easeOut' }}
+        className="fixed bottom-24 sm:bottom-24 right-4 left-4 sm:left-auto w-auto sm:w-[400px] lg:w-[420px] z-50"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Asistente virtual"
+        aria-busy={isTyping}
       >
         <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-3xl blur-lg opacity-30" />
-        
+
         <div className="relative bg-gray-900 rounded-2xl shadow-2xl border border-gray-700/50 overflow-hidden max-h-[80vh] sm:max-h-[85vh] flex flex-col">
+          {/* Top accent line */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500" />
-          
+
+          {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 bg-gray-800/80 backdrop-blur-sm">
             <div className="flex items-center gap-2">
               <div className="relative">
-                <Bot size={16} className="text-cyan-400" />
-                <motion.div
-                  animate={{ opacity: [1, 0.3, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="absolute -inset-1 bg-cyan-400 rounded-full blur-sm"
-                />
+                <Bot size={16} className="text-cyan-400" aria-hidden="true" />
+                {!reducedMotion && (
+                  <motion.div
+                    animate={{ opacity: [1, 0.3, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="absolute -inset-1 bg-cyan-400 rounded-full blur-sm"
+                  />
+                )}
               </div>
               <span className="text-xs font-mono text-cyan-400/80">AI Assistant</span>
             </div>
-            <button
-              onClick={onClose}
-              className="p-1.5 hover:bg-gray-700 rounded-lg transition-colors"
-            >
-              <X size={14} className="text-gray-500" />
-            </button>
+            <div className="flex items-center gap-1">
+              {messages.length > 1 && (
+                <button
+                  onClick={handleClear}
+                  className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+                  aria-label="Limpiar conversación"
+                  title="Limpiar conversación"
+                >
+                  <Trash2 size={14} className="text-gray-400" />
+                </button>
+              )}
+              <button
+                onClick={onClose}
+                className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+                aria-label="Cerrar asistente"
+              >
+                <X size={14} className="text-gray-400" />
+              </button>
+            </div>
           </div>
 
+          {/* Messages area */}
           <div
             ref={terminalRef}
-            className="h-72 sm:h-80 overflow-y-auto p-3 sm:p-4 space-y-3 scrollbar-thin scrollbar-thumb-gray-700"
+            className="flex-1 min-h-[240px] max-h-[50vh] sm:max-h-[56vh] overflow-y-auto p-3 sm:p-4 space-y-3 scrollbar-thin scrollbar-thumb-gray-700"
+            aria-live="polite"
+            aria-atomic="false"
           >
             {messages.map((msg, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 10 }}
+                initial={reducedMotion ? {} : { opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.03 }}
+                transition={{ duration: 0.2 }}
                 className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[85%] sm:max-w-[85%] px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl text-sm sm:text-sm whitespace-pre-wrap leading-relaxed ${
+                  className={`max-w-[85%] px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl text-sm whitespace-pre-wrap leading-relaxed ${
                     msg.role === 'user'
                       ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-br-md'
                       : 'bg-gray-800/80 text-cyan-100 border border-gray-700/30 rounded-bl-md'
@@ -264,68 +275,59 @@ export const InteractiveTerminal = ({ language, isOpen, onClose }: InteractiveTe
                 </div>
               </motion.div>
             ))}
-            
-            {isTyping && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex items-center gap-1 pl-4"
-              >
-                <motion.span
-                  animate={{ opacity: [0.3, 1, 0.3], x: [0, 5, 0] }}
-                  transition={{ duration: 1, repeat: Infinity }}
-                  className="text-cyan-400 font-mono text-base sm:text-sm"
-                >
-                  ▋
-                </motion.span>
-              </motion.div>
-            )}
 
-            {error && (
-              <div className="text-red-400 font-mono text-xs sm:text-sm text-center">
-                ❌ {error}
-              </div>
+            {isTyping && <TypingIndicator />}
+
+            {error && messages[messages.length - 1]?.content !== error && (
+              <div className="text-red-400 font-mono text-xs text-center py-1">{error}</div>
             )}
           </div>
 
+          {/* Suggested questions */}
+          {messages.length <= 2 && !isTyping && (
+            <div className="px-3 sm:px-4 pb-2">
+              <div className="flex flex-wrap gap-2">
+                {quickQuestions.map((q) => (
+                  <button
+                    key={q}
+                    onClick={() => handleSuggestedQuestion(q)}
+                    className="px-3 py-1.5 bg-gray-800/80 hover:bg-gray-700/80 rounded-full text-xs text-gray-300 hover:text-white transition-colors border border-gray-700/40"
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Input area */}
           <form onSubmit={handleSubmit} className="p-3 sm:p-3 bg-gray-800/60 border-t border-gray-700/30">
-            <div className="flex items-center gap-2 px-3 sm:px-3 py-2.5 sm:py-2.5 bg-gray-900/50 rounded-xl border border-gray-700/30">
-              <Code2 size={16} className="text-purple-400 flex-shrink-0" />
+            <div className="flex items-center gap-2 px-3 sm:px-3 py-2.5 sm:py-2.5 bg-gray-900/50 rounded-xl border border-gray-700/30 focus-within:border-cyan-500/50 transition-colors">
               <input
                 ref={inputRef}
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={language === 'es' ? 'pregúntame sobre Sebastián...' : 'ask me about Sebastián...'}
-                className="flex-1 bg-transparent text-white text-base sm:text-sm outline-none placeholder-gray-500"
+                onKeyDown={handleKeyDown}
+                placeholder={getPlaceholder(language)}
+                className="flex-1 bg-transparent text-white text-sm outline-none placeholder-gray-500 disabled:opacity-50"
                 autoComplete="off"
                 disabled={isTyping}
+                aria-label="Escribe tu mensaje"
+                maxLength={500}
               />
-              <motion.button
+              <button
                 type="submit"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
                 disabled={isTyping || !input.trim()}
-                className="p-2 sm:p-1.5 bg-cyan-500/20 hover:bg-cyan-500/30 rounded-lg transition-colors disabled:opacity-50 min-w-[44px] min-h-[44px] flex items-center justify-center"
+                className="p-2 sm:p-1.5 bg-cyan-500/20 hover:bg-cyan-500/30 active:bg-cyan-500/40 rounded-lg transition-colors disabled:opacity-40 disabled:hover:bg-cyan-500/20 min-w-[44px] min-h-[44px] flex items-center justify-center"
+                aria-label="Enviar mensaje"
               >
-                <Send size={18} className="text-cyan-400" />
-              </motion.button>
-            </div>
-
-            <div className="flex gap-2 mt-2 hidden sm:flex">
-              {quickLinks.map((link) => (
-                <motion.a
-                  key={link.label}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-800/80 hover:bg-gray-700/80 rounded-lg text-xs text-gray-400 hover:text-white transition-colors border border-gray-700/30"
-                >
-                  {link.label}
-                </motion.a>
-              ))}
+                {isTyping ? (
+                  <Loader2 size={18} className="text-cyan-400 animate-spin" />
+                ) : (
+                  <Send size={18} className="text-cyan-400" />
+                )}
+              </button>
             </div>
           </form>
         </div>

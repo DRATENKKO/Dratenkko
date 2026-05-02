@@ -10,6 +10,7 @@ import { Skills } from './sections/Skills';
 import { Projects } from './sections/Projects';
 import { GitHubStats } from './sections/GitHubStats';
 import { Contact } from './sections/Contact';
+import { Credentials } from './sections/Credentials';
 import { InteractiveTerminal } from './ui/InteractiveTerminal';
 import { ProjectModal } from './ui/ProjectModal';
 import { CustomCursor, useEasterEgg } from './ui/CustomCursor';
@@ -72,12 +73,13 @@ const Portfolio = () => {
         setIsLanguageMenuOpen={setIsLanguageMenuOpen}
       />
 
-      <main>
+      <main id="main-content">
         <Hero language={language} />
         <Experience language={language} />
         <Skills language={language} />
         <Projects language={language} onSelectProject={handleSelectProject} />
         <GitHubStats />
+        <Credentials language={language} />
         <Contact language={language} />
       </main>
 
