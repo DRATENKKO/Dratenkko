@@ -1,0 +1,10 @@
+name = "minimax-proxy"
+main = "src/index.ts"
+compatibility_date = "2025-05-02"
+
+# Free tier: 100,000 requests/day
+# Deploy: npx wrangler deploy
+# Set secret: npx wrangler secret put MINIMAX_API_KEY
+
+[observability]
+enabled = true

@@ -1,14 +1,8 @@
 /**
  * MiniMax AI client.
  *
- * IMPORTANT SECURITY NOTE:
- * This project is built as a static site (Vite → docs/ → GitHub Pages).
- * The API key is exposed in the frontend bundle via import.meta.env.VITE_MINIMAX_API_KEY.
- * For production security, deploy a small backend proxy (e.g., Vercel/Netlify Edge Function,
- * Cloudflare Worker, or use the existing src/pages/api/chat.ts if migrating to a framework
- * with API routes like Next.js).
- *
- * As a lightweight mitigation, this module includes a local rate limiter.
+ * Dev: calls MiniMax directly using VITE_MINIMAX_API_KEY from .env
+ * Prod: calls Cloudflare Worker proxy (VITE_CHAT_API_URL) — key stays server-side
  */
 
 import { sanitizeAssistantResponse } from './sanitize';
@@ -25,8 +19,10 @@ export interface ChatOptions {
   temperature?: number;
 }
 
-const API_KEY = import.meta.env.VITE_MINIMAX_API_KEY || '';
-const API_URL = 'https://api.minimax.io/v1/chat/completions';
+const PROXY_URL = import.meta.env.VITE_CHAT_API_URL || '';
+const DIRECT_API_KEY = import.meta.env.VITE_MINIMAX_API_KEY || '';
+const DIRECT_API_URL = 'https://api.minimax.io/v1/chat/completions';
+const USE_PROXY = Boolean(PROXY_URL);
 const REQUEST_TIMEOUT_MS = 20000;
 
 // Local rate limiter
@@ -75,7 +71,10 @@ export class ChatError extends Error {
 }
 
 export async function sendChatMessage(options: ChatOptions): Promise<string> {
-  if (!API_KEY) {
+  const API_KEY = USE_PROXY ? '' : DIRECT_API_KEY;
+  const API_URL = USE_PROXY ? PROXY_URL : DIRECT_API_URL;
+
+  if (!USE_PROXY && !API_KEY) {
     throw new ChatError('API key not configured. Set VITE_MINIMAX_API_KEY in your environment.', 'NO_API_KEY');
   }
 
@@ -91,19 +90,32 @@ export async function sendChatMessage(options: ChatOptions): Promise<string> {
   const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
 
   try {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+
+    if (!USE_PROXY) {
+      headers['Authorization'] = `Bearer ${API_KEY}`;
+    }
+
+    const body = USE_PROXY
+      ? JSON.stringify({
+          message: options.messages[options.messages.length - 1]?.content || '',
+          history: options.messages.slice(0, -1),
+          language: 'es',
+        })
+      : JSON.stringify({
+          model: 'MiniMax-M2.7',
+          messages: options.messages,
+          system: options.systemPrompt,
+          max_tokens: options.maxTokens ?? 450,
+          temperature: options.temperature ?? 0.5,
+        });
+
     const response = await fetch(API_URL, {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'MiniMax-M2.7',
-        messages: options.messages,
-        system: options.systemPrompt,
-        max_tokens: options.maxTokens ?? 450,
-        temperature: options.temperature ?? 0.5,
-      }),
+      headers,
+      body,
       signal: controller.signal,
     });
 
@@ -125,13 +137,16 @@ export async function sendChatMessage(options: ChatOptions): Promise<string> {
     }
 
     const data = (await response.json()) as {
+      response?: string;
       choices?: Array<{ message?: { content?: string } }>;
       content?: string;
       error?: { message?: string };
     };
 
     let content = '';
-    if (data.choices && data.choices[0]?.message?.content) {
+    if (USE_PROXY && data.response) {
+      content = data.response;
+    } else if (data.choices && data.choices[0]?.message?.content) {
       content = data.choices[0].message.content;
     } else if (data.content) {
       content = data.content;
@@ -141,7 +156,7 @@ export async function sendChatMessage(options: ChatOptions): Promise<string> {
       throw new ChatError(data.error.message || 'Unknown API error', 'API_ERROR');
     }
 
-    const sanitized = sanitizeAssistantResponse(content);
+    const sanitized = USE_PROXY ? content : sanitizeAssistantResponse(content);
 
     // If after sanitization the response is empty, it likely contained only reasoning blocks
     if (!sanitized || sanitized.length < 3) {
