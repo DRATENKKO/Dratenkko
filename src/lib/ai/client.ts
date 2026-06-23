@@ -19,8 +19,7 @@ const RATE_LIMIT_KEY = 'portfolio_chat_requests';
 function checkRateLimit() {
   try {
     const now = Date.now();
-    const recent = JSON.parse(localStorage.getItem(RATE_LIMIT_KEY) || '[]')
-      .filter((time: number) => time > now - 60000);
+    const recent = JSON.parse(localStorage.getItem(RATE_LIMIT_KEY) || '[]').filter((time: number) => time > now - 60000);
     if (recent.length >= 8) return false;
     localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify([...recent, now]));
   } catch {
@@ -30,25 +29,19 @@ function checkRateLimit() {
 }
 
 export class ChatError extends Error {
-  constructor(
-    message: string,
-    public readonly code: 'NO_API_KEY' | 'RATE_LIMITED' | 'TIMEOUT' | 'NETWORK' | 'API_ERROR' | 'UNKNOWN'
-  ) {
+  constructor(message: string, public readonly code: 'NO_API_KEY' | 'RATE_LIMITED' | 'TIMEOUT' | 'NETWORK' | 'API_ERROR' | 'UNKNOWN') {
     super(message);
     this.name = 'ChatError';
   }
 }
 
 export async function sendChatMessage(options: ChatOptions): Promise<string> {
-  if (!CHAT_API_URL) {
-    throw new ChatError('Chat proxy is not configured.', 'NO_API_KEY');
-  }
-  if (!checkRateLimit()) {
-    throw new ChatError('Too many requests.', 'RATE_LIMITED');
-  }
+  if (!CHAT_API_URL) throw new ChatError('Chat proxy is not configured.', 'NO_API_KEY');
+  if (!checkRateLimit()) throw new ChatError('Too many requests.', 'RATE_LIMITED');
 
   const controller = new AbortController();
   const timeout = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  const latest = options.messages[options.messages.length - 1];
 
   try {
     const response = await fetch(CHAT_API_URL, {
@@ -56,7 +49,7 @@ export async function sendChatMessage(options: ChatOptions): Promise<string> {
       headers: { 'Content-Type': 'application/json' },
       signal: controller.signal,
       body: JSON.stringify({
-        message: options.messages.at(-1)?.content || '',
+        message: latest?.content || '',
         history: options.messages.slice(0, -1),
         systemPrompt: options.systemPrompt,
         maxTokens: options.maxTokens ?? 320,
@@ -65,31 +58,18 @@ export async function sendChatMessage(options: ChatOptions): Promise<string> {
       }),
     });
 
-    if (response.status === 429) {
-      throw new ChatError('Too many requests.', 'RATE_LIMITED');
-    }
-    if (!response.ok) {
-      throw new ChatError(`Chat service returned ${response.status}.`, 'API_ERROR');
-    }
+    if (response.status === 429) throw new ChatError('Too many requests.', 'RATE_LIMITED');
+    if (!response.ok) throw new ChatError(`Chat service returned ${response.status}.`, 'API_ERROR');
 
     const data = await response.json() as { response?: string; error?: string };
-    if (!data.response) {
-      throw new ChatError(data.error || 'Empty response.', 'API_ERROR');
-    }
-
+    if (!data.response) throw new ChatError(data.error || 'Empty response.', 'API_ERROR');
     const answer = sanitizeAssistantResponse(data.response);
-    if (!answer || answer.length < 3) {
-      throw new ChatError('Empty response.', 'API_ERROR');
-    }
+    if (!answer || answer.length < 3) throw new ChatError('Empty response.', 'API_ERROR');
     return answer;
   } catch (error) {
     if (error instanceof ChatError) throw error;
-    if (error instanceof DOMException && error.name === 'AbortError') {
-      throw new ChatError('Request timed out.', 'TIMEOUT');
-    }
-    if (error instanceof TypeError) {
-      throw new ChatError('Network error.', 'NETWORK');
-    }
+    if (error instanceof DOMException && error.name === 'AbortError') throw new ChatError('Request timed out.', 'TIMEOUT');
+    if (error instanceof TypeError) throw new ChatError('Network error.', 'NETWORK');
     throw new ChatError(error instanceof Error ? error.message : 'Unknown error.', 'UNKNOWN');
   } finally {
     window.clearTimeout(timeout);
