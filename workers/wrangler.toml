@@ -1,10 +1,17 @@
 name = "minimax-proxy"
-main = "src/index.ts"
-compatibility_date = "2025-05-02"
+main = "src/portfolio.ts"
+compatibility_date = "2026-06-01"
 
-# Free tier: 100,000 requests/day
-# Deploy: npx wrangler deploy
-# Set secret: npx wrangler secret put MINIMAX_API_KEY
+[vars]
+SITE_ORIGIN = "https://sebavb.dev"
+
+# Required secrets:
+# npx wrangler secret put MINIMAX_API_KEY
+# npx wrangler secret put VISITOR_SALT
+#
+# Create and bind a free KV namespace named VISITS before deploying analytics:
+# npx wrangler kv namespace create VISITS
+# Then add the generated namespace id as a VISITS binding in Cloudflare.
 
 [observability]
 enabled = true
