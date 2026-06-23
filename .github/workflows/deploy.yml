@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   workflow_dispatch:
 
 permissions:
@@ -11,8 +11,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: pages
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -27,7 +27,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
@@ -37,14 +38,26 @@ jobs:
         env:
           VITE_CHAT_API_URL: ${{ secrets.VITE_CHAT_API_URL }}
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
+      - name: Generate responsive previews
+        run: |
+          npx -y playwright@1.52.0 install chromium
+          npx vite preview --host 127.0.0.1 --port 4173 > /tmp/portfolio-preview.log 2>&1 &
+          for attempt in {1..30}; do
+            curl -fsS http://127.0.0.1:4173/ >/dev/null && break
+            sleep 1
+          done
+          mkdir -p docs/previews
+          npx -y playwright@1.52.0 screenshot --browser chromium --viewport-size "1440,1100" --full-page http://127.0.0.1:4173/ docs/previews/portfolio-desktop.png
+          npx -y playwright@1.52.0 screenshot --browser chromium --device "iPhone 13" --full-page http://127.0.0.1:4173/ docs/previews/portfolio-mobile.png
 
-      - name: Upload artifact
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site
         uses: actions/upload-pages-artifact@v4
         with:
-          path: './docs'
+          path: ./docs
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
